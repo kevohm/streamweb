@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+
+.btn{
+    @apply capitalize  px-4 py-2 rounded-lg transition-all ease-in-out
+}
+.btn-ghost{
+    @apply text-[var(--white)] border-none hover:bg-[var(--white)]/5 focus:bg-[var(--white)]/25 focus:text-white
+}
+.btn-primary{
+    @apply text-[var(--white)] bg-[var(--primary)] border-none hover:bg-[var(--primary)]/75 focus:bg-[var(--primary)]/75 focus:text-white
+}
+.btn-ghost-outline{
+    @apply text-[var(--white)] bg-none border border-[var(--white)] hover:bg-[var(--white)]/75 hover:text-[var(--secondary)] focus:bg-[var(--white)]/75 focus:text-[var(--secondary)]
+}
