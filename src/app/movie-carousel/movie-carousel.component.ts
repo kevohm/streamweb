@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Movie, Series } from '../../types/video';
+import { MovieCardComponent } from './movie-card/movie-card.component';
+import { SeriesCardComponent } from './series-card/series-card.component';
 
 @Component({
   selector: 'app-movie-carousel',
-  imports: [CommonModule],
+  imports: [CommonModule, MovieCardComponent, SeriesCardComponent],
   templateUrl: './movie-carousel.component.html',
   styleUrl: './movie-carousel.component.css'
 })
@@ -12,20 +15,11 @@ export class MovieCarouselComponent implements AfterViewInit  {
   @ViewChild('videoContainer', { static: true }) videoContainer!: ElementRef<HTMLDivElement>;
   showPrev: boolean = false;
   showNext: boolean = true;
+  startIndex = 0
+  endIndex = 0
 
-  movies = [
-    'https://image.tmdb.org/t/p/w200/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-    'https://image.tmdb.org/t/p/w200/rTh4K5uw9HypmpGslcKd4QfHl93.jpg',
-    'https://image.tmdb.org/t/p/w200/q719jXXEzOoYaps6babgKnONONX.jpg',
-    'https://image.tmdb.org/t/p/w200/yF1eOkaYvwiORauRCPWznV9xVvi.jpg',
-    'https://image.tmdb.org/t/p/w200/6ELCZlTA5lGUops70hKdB83WJxH.jpg',
-    'https://image.tmdb.org/t/p/w200/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-    'https://image.tmdb.org/t/p/w200/rTh4K5uw9HypmpGslcKd4QfHl93.jpg',
-    'https://image.tmdb.org/t/p/w200/q719jXXEzOoYaps6babgKnONONX.jpg',
-    'https://image.tmdb.org/t/p/w200/yF1eOkaYvwiORauRCPWznV9xVvi.jpg',
-    'https://image.tmdb.org/t/p/w200/6ELCZlTA5lGUops70hKdB83WJxH.jpg',
-  ];
-
+  @Input() movies:Movie[] = [];
+  @Input() series:Series[] = [];
   ngAfterViewInit() {
     this.updateButtonVisibility();
   }
