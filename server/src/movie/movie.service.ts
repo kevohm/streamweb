@@ -9,30 +9,38 @@ export class MovieService {
   private readonly baseUrl?: string;
   private readonly imageBaseUrl?: string;
   private readonly imageSize?: string;
+  private readonly backdropImageSize?: string;
+  private readonly baseImageUrl?: string;
+  private readonly baseBackdropImageUrl?: string;
+  private readonly OmdbBaseUrl?: string;
+  private readonly OmdbApiKey?: string;
 
   constructor(private configService: ConfigService) {
     this.apiKey = configService.get<string>('TMDB_API_KEY');
     this.baseUrl = configService.get<string>('TMDB_API_URL');
     this.imageBaseUrl = configService.get<string>('TMDB_IMAGE_BASE_URL');
     this.imageSize = configService.get<string>('TMDB_IMAGE_SIZE')
+    this.backdropImageSize = configService.get<string>('TMDB_BACKDROP_IMAGE_SIZE')
+    this.baseImageUrl =  `${this.imageBaseUrl}${this.imageSize}`;
+    this.baseBackdropImageUrl =  `${this.imageBaseUrl}${this.baseBackdropImageUrl}`;
+    this.OmdbApiKey = this.configService.get<string>('OMDB_API_KEY');
+    this.OmdbBaseUrl = this.configService.get<string>('OMDB_API_URL');
   }
 
   async fetchMovie(query: { i?: string; t?: string; type?: string; y?: string; plot?: string; r?: string }) {
     const { i, t, type, y, plot, r } = query;
-    const apiKey = this.configService.get<string>('OMDB_API_KEY');
-    const baseUrl = this.configService.get<string>('OMDB_API_URL');
 
     if (!i && !t) {
       throw new HttpException("Either 'i' (IMDb ID) or 't' (Title) is required.", HttpStatus.BAD_REQUEST);
     }
-    if (!baseUrl || !apiKey) {
+    if (!this.OmdbBaseUrl || !this.OmdbApiKey) {
       Logger.error("Invalid url (base_url)", 'MovieService')
       throw new HttpException("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     try {
-      const response = await axios.get(baseUrl, {
-        params: { apikey: apiKey, i, t, type, y, plot: plot || 'short', r: r || 'json' },
+      const response = await axios.get(this.OmdbBaseUrl, {
+        params: { apikey: this.OmdbApiKey, i, t, type, y, plot: plot || 'short', r: r || 'json' },
       });
 
       return response.data;
@@ -103,7 +111,7 @@ export class MovieService {
     const params = { page: query.page, with_genres: query.genre, sort_by: query.sort_by };
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatMovies(data)
-    return { ...formattedData, base_url: `${this.imageBaseUrl}${this.imageSize}` }
+    return { ...formattedData, base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl }
   }
 
   async fetchTvShows(query: { page?: number, genre?: string,  sort_by?: string}) {
@@ -111,7 +119,7 @@ export class MovieService {
     const params = { page: query.page, with_genres: query.genre,  sort_by: query.sort_by };
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatSeries(data)
-    return { ...formattedData, base_url: `${this.imageBaseUrl}${this.imageSize}` }
+    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl }
   }
 
 
@@ -122,7 +130,7 @@ export class MovieService {
     const params = query;
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatMovies(data)
-    return { ...formattedData, base_url: `${this.imageBaseUrl}${this.imageSize}` };
+    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl };
   }
 
   // Fetch trending TV shows
@@ -131,7 +139,7 @@ export class MovieService {
     const params = query;
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatSeries(data)
-    return { ...formattedData, base_url: `${this.imageBaseUrl}${this.imageSize}` };
+    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl };
   }
 
   // Fetch top-rated movies
@@ -140,7 +148,7 @@ export class MovieService {
     const params = query;
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatMovies(data)
-    return { ...formattedData, base_url: `${this.imageBaseUrl}${this.imageSize}` };
+    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl };
   }
 
   // Fetch top-rated TV shows
@@ -149,7 +157,32 @@ export class MovieService {
     const params = query;
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatSeries(data)
-    return { ...formattedData, base_url: `${this.imageBaseUrl}${this.imageSize}` };
+    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl };
+  }
+
+
+
+  
+  // Fetch movie details including IMDb and Rotten Tomatoes ratings
+  async fetchMovieWithRatings(movieId: string) {
+    try {
+      // Fetch movie data from TMDb
+      const {data} = await axios.get(`${this.baseUrl}/movie/${movieId}/external_ids`, {
+        params: { api_key: this.apiKey },
+      })
+      const movieData = data
+      // Fetch IMDb ID from TMDb external ids
+      const imdbId = movieData?.imdb_id;
+      if (!this.OmdbBaseUrl || !this.OmdbApiKey) {
+        Logger.error("Invalid url (base_url)", 'MovieService')
+        throw new HttpException("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      const response = await axios.get(this.OmdbBaseUrl, {params: { apikey: this.OmdbApiKey, i: imdbId}})
+      const imdbRating = response.data
+      return imdbRating
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
 

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { Movie, Series } from '../types/video';
+import { Movie, OmdbMovie, Series } from '../types/video';
 
 type ApiResponse<T> = {
   "page": number,
@@ -82,6 +82,9 @@ export class VideoService {
   }): Observable<ApiResponse<Series>> {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Series>>(`${this.apiUrl}/top-rated-series`, { params: httpParams });
+  }
+  getRatings(movieId:number): Observable<OmdbMovie> {
+    return this.http.get<OmdbMovie>(`${this.apiUrl}/movies/ratings/${movieId}`);
   }
 
 }
