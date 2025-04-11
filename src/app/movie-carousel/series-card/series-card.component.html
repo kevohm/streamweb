@@ -1,6 +1,9 @@
 @defer (on viewport) {
     @if(series){
-        <a href="/movie" class="relative transition-all ease-in-out rounded-xl overflow-hidden w-[230px] block h-[350px]  group hover:scale-[1.01]">
+        <a
+        [queryParams]="{ id: series.id, type: 'tv_show' }"
+        [routerLink]="['/video']"
+        class="relative transition-all ease-in-out rounded-xl overflow-hidden w-[230px] block h-[350px]  group hover:scale-[1.01]">
             <img [src]="series.poster_path" alt="cover" class="w-[230px] block h-[350px] cover object-cover" />
             <div
                 class="absolute inset-0 w-full h-full flex flex-col items-center justify-end bg-none opacity-0 group-hover:opacity-100 group-hover:bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.5))] group-hover:bg-black/50 transition duration-300">

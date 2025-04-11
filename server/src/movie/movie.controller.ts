@@ -13,9 +13,13 @@ export class MovieController {
     async getMovieRatings(@Param() params: {id:string}) {
       return this.movieService.fetchMovieWithRatings(params.id)
     }
-    @Get("movies/query")
-    async getMovie(@Query() query: { i?: string; t?: string; type?: string; y?: string; plot?: string; r?: string }) {
-      return this.movieService.fetchMovie(query);
+    @Get("movies/query/:id")
+    async getMovie(@Param() params: {id:string})  {
+      return this.movieService.fetchMovieDetails(params.id);
+    }
+    @Get("series/query/:id")
+    async getShow(@Param() params: {id:string})  {
+      return this.movieService.fetchSeriesDetails(params.id);
     }
     @Get("movies")
     async getMovies(@Query() query: { page?: number, genre?:string, sort_by?: string}) {

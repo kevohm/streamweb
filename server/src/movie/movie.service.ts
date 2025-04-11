@@ -22,7 +22,7 @@ export class MovieService {
     this.imageSize = configService.get<string>('TMDB_IMAGE_SIZE')
     this.backdropImageSize = configService.get<string>('TMDB_BACKDROP_IMAGE_SIZE')
     this.baseImageUrl =  `${this.imageBaseUrl}${this.imageSize}`;
-    this.baseBackdropImageUrl =  `${this.imageBaseUrl}${this.baseBackdropImageUrl}`;
+    this.baseBackdropImageUrl =  `${this.imageBaseUrl}${this.backdropImageSize}`;
     this.OmdbApiKey = this.configService.get<string>('OMDB_API_KEY');
     this.OmdbBaseUrl = this.configService.get<string>('OMDB_API_URL');
   }
@@ -185,5 +185,39 @@ export class MovieService {
     }
   }
 
-
+  async fetchMovieDetails(movieId: string) {
+    const endpoint = `/movie/${movieId}`;
+    const params = {};
+  
+    try {
+      const data = await this.fetchFromTmdb(endpoint, params);
+      return {
+        ...data,
+        base_url:this.baseImageUrl,
+        base_backdrop_url:this.baseBackdropImageUrl
+      };
+    } catch (error) {
+      Logger.error(`Failed to fetch movie details for ID ${movieId}: ${error.message}`, 'MovieService');
+      throw new HttpException('Failed to fetch movie details', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
+  
+  async fetchSeriesDetails(seriesId: string) {
+    const endpoint = `/tv/${seriesId}`;
+    const params = {};
+  
+    try {
+      const data = await this.fetchFromTmdb(endpoint, params);
+      return {
+        ...data,
+        base_url: this.baseImageUrl,
+        base_backdrop_url: this.baseBackdropImageUrl,
+      };
+    } catch (error) {
+      Logger.error(`Failed to fetch series details for ID ${seriesId}: ${error.message}`, 'SeriesService');
+      throw new HttpException('Failed to fetch series details', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
 }

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { Movie, OmdbMovie, Series } from '../types/video';
+import { Movie, OmdbMovie, Series, SingleMovie, SingleSeries } from '../types/video';
 
 type ApiResponse<T> = {
   "page": number,
@@ -41,6 +41,13 @@ export class VideoService {
   getSingle(params?: SingleMovieParams): Observable<any> {
     let httpParams = this.formatParams(params)
     return this.http.get(this.apiUrl, { params: httpParams });
+  }
+
+  getMovieDetails(movieId:number): Observable<SingleMovie> {
+    return this.http.get<SingleMovie>(`${this.apiUrl}/movies/query/${movieId}`);
+  }
+  getShowDetails(movieId:number): Observable<SingleSeries> {
+    return this.http.get<SingleSeries>(`${this.apiUrl}/series/query/${movieId}`);
   }
 
   getMovies(params?: {
