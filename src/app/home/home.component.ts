@@ -26,17 +26,20 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.videoService.getMovies().subscribe((response) => {
       const base_url = response.base_url
-      this.movies = response.results.map((movie) => ({ ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_url}${movie.backdrop_path}` }));
+      const base_backdrop_url = response.base_backdrop_url
+      this.movies = response.results.map((movie) => ({ ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_backdrop_url}${movie.backdrop_path}` }));
     });
     this.videoService.getSeries().subscribe((response) => {
       const base_url = response.base_url
+      const base_backdrop_url = response.base_backdrop_url
 
-      this.series = response.results.map((movie) => ({ ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_url}${movie.backdrop_path}` }));
+      this.series = response.results.map((movie) => ({ ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_backdrop_url}${movie.backdrop_path}` }));
     });
     this.videoService.getTrendingMovies().subscribe((response) => {
       const base_url = response.base_url
+      const base_backdrop_url = response.base_backdrop_url
       this.trendingMovies = response.results.map((movie, index) => {
-        const finalMovie =  { ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_url}${movie.backdrop_path}` }
+        const finalMovie =  { ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_backdrop_url}${movie.backdrop_path}` }
         if(index === 0){
           this.topMovie = finalMovie
         }
@@ -45,8 +48,9 @@ export class HomeComponent implements OnInit {
     });
     this.videoService.getTrendingSeries().subscribe((response) => {
       const base_url = response.base_url
+      const base_backdrop_url = response.base_backdrop_url
       this.trendingSeries = response.results.map((movie, index) =>{
-        const finalSeries = { ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_url}${movie.backdrop_path}` }
+        const finalSeries = { ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_backdrop_url}${movie.backdrop_path}` }
         if(index === 0){
           this.topSeries = finalSeries
         }
@@ -55,11 +59,13 @@ export class HomeComponent implements OnInit {
     });
     this.videoService.getTopRatedMovies().subscribe((response) => {
       const base_url = response.base_url
-      this.topRatedMovies = response.results.map((movie) => ({ ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_url}${movie.backdrop_path}` }));
+      const base_backdrop_url = response.base_backdrop_url
+      this.topRatedMovies = response.results.map((movie) => ({ ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_backdrop_url}${movie.backdrop_path}` }));
     });
     this.videoService.getTopRatedSeries().subscribe((response) => {
       const base_url = response.base_url
-      this.topRatedSeries = response.results.map((movie) => ({ ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_url}${movie.backdrop_path}` }));
+      const base_backdrop_url = response.base_backdrop_url
+      this.topRatedSeries = response.results.map((movie) => ({ ...movie, poster_path: `${base_url}${movie.poster_path}`, backdrop_path: `${base_backdrop_url}${movie.backdrop_path}` }));
     });
 
   }

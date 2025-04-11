@@ -1,0 +1,32 @@
+<ng-container *ngIf="video; else loading">
+    <main class="w-full h-full flex flex-col">
+    <div class="relative w-full h-1/2 flex flex-col items-center justify-center"
+    [ngStyle]="{
+        'background-image': 'url(' + (video.backdrop_path || 'path/to/default-image.jpg') + '), linear-gradient(180deg, rgba(0,0,0,0), var(--secondary))',
+        'background-size': 'cover',
+        'background-position': 'center',
+        'background-repeat': 'no-repeat',
+        'background-blend-mode': 'multiply'
+      }"
+    >
+        <div class="absolute top-1/2 left-0 w-full text-white flex flex-col px-24 py-12 min-h-full">
+            <div class="flex items-center ">
+                <img
+                [src]="video.poster_path"
+                alt="cover"
+                class="w-[300px] h-[400px] rounded-xl object-top object-cover"
+                />
+                <div class="p-12">
+                    <h3>{{video.name}}</h3>
+                    <p>{{video.overview}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+  </ng-container>
+  
+  <ng-template #loading>
+    <p>Loading video details...</p>
+  </ng-template>
+  

@@ -1,8 +1,7 @@
 @defer (on viewport) {
 @if(movie){
     <a
-    [queryParams]="{ id: movie.id, type: 'movie' }"
-    [routerLink]="['/video']"
+    [routerLink]="[`/movie/${movie.id}`]"
     class="relative transition-all ease-in-out rounded-xl overflow-hidden w-[230px] block h-[350px]  group hover:scale-[1.01]">
     <img [src]="movie.poster_path" alt="cover" class="w-[230px] block h-[350px] cover object-cover" />
     <div

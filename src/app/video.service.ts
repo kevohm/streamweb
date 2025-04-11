@@ -9,7 +9,8 @@ type ApiResponse<T> = {
   "results": T[],
   "total_pages": number,
   "total_results": number,
-  "base_url": string
+  "base_url": string,
+  "base_backdrop_url": string,
 }
 
 type SingleMovieParams = {
@@ -43,10 +44,10 @@ export class VideoService {
     return this.http.get(this.apiUrl, { params: httpParams });
   }
 
-  getMovieDetails(movieId:number): Observable<SingleMovie> {
+  getMovieDetails(movieId: number): Observable<SingleMovie> {
     return this.http.get<SingleMovie>(`${this.apiUrl}/movies/query/${movieId}`);
   }
-  getShowDetails(movieId:number): Observable<SingleSeries> {
+  getShowDetails(movieId: number): Observable<SingleSeries> {
     return this.http.get<SingleSeries>(`${this.apiUrl}/series/query/${movieId}`);
   }
 
@@ -56,21 +57,21 @@ export class VideoService {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movies`, { params: httpParams });
   }
-  
+
   getSeries(params?: {
     page?: number;
   }): Observable<ApiResponse<Series>> {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Series>>(`${this.apiUrl}/series`, { params: httpParams });
   }
-  
+
   getTrendingMovies(params?: {
     page?: number;
   }): Observable<ApiResponse<Movie>> {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/trending-movies`, { params: httpParams });
   }
-  
+
   getTrendingSeries(params?: {
     page?: number;
   }): Observable<ApiResponse<Series>> {
@@ -83,14 +84,14 @@ export class VideoService {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/top-rated-movies`, { params: httpParams });
   }
-  
+
   getTopRatedSeries(params?: {
     page?: number;
   }): Observable<ApiResponse<Series>> {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Series>>(`${this.apiUrl}/top-rated-series`, { params: httpParams });
   }
-  getRatings(movieId:number): Observable<OmdbMovie> {
+  getRatings(movieId: number): Observable<OmdbMovie> {
     return this.http.get<OmdbMovie>(`${this.apiUrl}/movies/ratings/${movieId}`);
   }
 

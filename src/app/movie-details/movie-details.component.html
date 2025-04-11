@@ -1,0 +1,17 @@
+<ng-container *ngIf="video; else loading">
+    <main class="w-full h-full flex flex-col bg-">
+      <div class="w-full h-screen flex flex-col items-center justify-center">
+        <img
+        [src]="video.backdrop_path"
+        alt="cover"
+        class="w-full h-full cover object-cover"
+        />
+        <h3>Movie Details:</h3>
+  </div>
+    </main>
+  </ng-container>
+  
+  <ng-template #loading>
+    <p>Loading video details...</p>
+  </ng-template>
+  

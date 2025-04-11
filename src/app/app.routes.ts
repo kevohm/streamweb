@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { VideoComponent } from './video/video.component';
+import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { TvShowDetailsComponent } from './tv-show-details/tv-show-details.component';
 
 export const routes: Routes = [
     {
@@ -8,7 +9,12 @@ export const routes: Routes = [
         component: HomeComponent
     },
     {
-        path:":id",
-        component: VideoComponent
+        path:"movie/:id",
+        component: MovieDetailsComponent 
     },
+        {
+            path:"tv-show/:id",
+            component: TvShowDetailsComponent
+        }
 ];
+
