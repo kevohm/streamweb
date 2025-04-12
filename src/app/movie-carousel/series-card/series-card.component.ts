@@ -11,4 +11,6 @@ import { RouterLink } from '@angular/router';
 })
 export class SeriesCardComponent {
   @Input() series?:Series =undefined
+  @Input() height:number = 350;
+  @Input() width:number = 230;
 }

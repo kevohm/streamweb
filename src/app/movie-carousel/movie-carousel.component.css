@@ -1,0 +1,13 @@
+:host{
+    --side-button-width:80px;
+}
+
+.hide-scrollbar {
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+  

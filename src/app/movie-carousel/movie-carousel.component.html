@@ -1,44 +1,45 @@
-<div class="relative w-full">
-    <!-- Scroll Buttons -->
-    <button *ngIf="showPrev" (click)="scrollPrev()"
-        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-200">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-        </svg>
+<div #container class="w-full min-h-max grid grid-cols-[var(--side-button-width)_1fr_var(--side-button-width)]">
+  <div #prev class="prev flex justify-center items-center w-[var(--side-button-width)] relative">
+    <button #prevbtn class="btn prev-btn bg-[#ffd32f] text-[#0c0c1d] border-none h-12 w-12 rounded-full cursor-pointer flex justify-center items-center transition-all duration-300 ease-in-out hover:bg-[hsl(47,100%,39%)]">
+      <!-- SVG for left arrow -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-chevron-left-icon lucide-chevron-left m-0 p-0">
+        <path d="m15 18-6-6 6-6" />
+      </svg>
     </button>
-
-    <button *ngIf="showNext" (click)="scrollNext()"
-        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-200">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-        </svg>
-    </button>
-
-    <!-- Scrollable Container -->
-    <div #scrollContainer class="flex overflow-x-hidden space-x-4 p-5 -ml-5 rounded-xl scroll-smooth" (scroll)="onScroll()">
-        @if (movies.length) {
-            <div #videoContainer class="w-max flex items-center space-x-5">
-              @for (movie of movies; track movie.id) {
-                <app-movie-card [movie]="movie"></app-movie-card>
-              }
-            </div>
-          }
-          @else if (series.length) {
-            <div #videoContainer class="flex items-center space-x-5">
-              @for (tvshow of series; track tvshow.id) {
-                <app-series-card [series]="tvshow"></app-series-card>
-              }
-            </div>
-          } @else if (!movies.length) {
-            <div class="text-center text-gray-500">
-              <p>No movies available at the moment. Please check back later!</p>
-            </div>
-          }@else {
-            <div class="text-center text-gray-500">
-                <p>No series available at the moment. Please check back later!</p>
-              </div>
-          }
+  </div>
+  <div #holder class="hide-scrollbar holder w-full overflow-x-auto  scroll-smooth snap-x snap-mandatory">
+    <div #slider class="slider w-max flex gap-5 ">
+      @if (movies.length) {
+        @for (movie of movies; track movie.id) {
+          
+          <app-movie-card [height]="height" [width]="width" [movie]="movie"></app-movie-card>
+        }
+      }
+      @else if (series.length) {
+      @for (tvshow of series; track tvshow.id) {
+      <app-series-card [height]="height" [width]="width" [series]="tvshow"></app-series-card>
+      }
+      } @else if (!movies.length) {
+      <div class="text-center text-gray-500">
+        <p>No movies available at the moment. Please check back later!</p>
       </div>
-      
-
+      }@else {
+      <div class="text-center text-gray-500">
+        <p>No series available at the moment. Please check back later!</p>
+      </div>
+      }
+    </div>
+  </div>
+  <div #next class="next flex justify-center items-center w-[var(--side-button-width)] relative">
+    <button #nextbtn
+      class="next-btn btn bg-[#ffd32f] text-[#0c0c1d] border-none h-12 w-12 rounded-full cursor-pointer flex justify-center items-center transition-all duration-300 ease-in-out hover:bg-[hsl(47,100%,39%)]">
+      <!-- SVG for right arrow -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right">
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+  </div>
 </div>

@@ -1,0 +1,13 @@
+.movie {
+    flex: 0 0 auto;
+    display: block;
+    scroll-snap-align: start;
+    background: #1f1f2e;
+    border-radius: 10px;
+    transition: all .3s cubic-bezier(1, 0, 0, 1);
+}
+
+.movie:hover {
+    background-blend-mode: multiply;
+
+}

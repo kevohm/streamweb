@@ -1,9 +1,8 @@
 @defer (on viewport) {
-    @if(series){
-        <a
-        [routerLink]="[`/tv-show/${series.id}`]"
-        class="relative transition-all ease-in-out rounded-xl overflow-hidden w-[230px] block h-[350px]  group hover:scale-[1.01]">
-            <img [src]="series.poster_path" alt="cover" class="w-[230px] block h-[350px] cover object-cover" />
+@if(series){
+<!-- <a [routerLink]="[`/tv-show/${series.id}`]" #movieCard
+        class="movie relative transition-all ease-in-out rounded-xl overflow-hidden  group"  [style.width.px]="width" [style.height.px]="height">
+            <img [src]="series.poster_path" alt="cover" class=" cover object-cover" fill />
             <div
                 class="absolute inset-0 w-full h-full flex flex-col items-center justify-end bg-none opacity-0 group-hover:opacity-100 group-hover:bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.5))] group-hover:bg-black/50 transition duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -23,14 +22,42 @@
                     </div>
                 </div>
             </div>
-        </a>
-    }
+        </a> -->
+<a [routerLink]="[`/tv-show/${series.id}`]" #movieCard>
+    <div class=" snap-start group block scroll-snap-start bg-[#1f1f2e] rounded-xl overflow-hidden relative transition-all duration-300 ease-[cubic-bezier(1,0,0,1)]"
+        [style.width.px]="width" [style.height.px]="height">
+        <img [src]="series.poster_path" [alt]="'movie' + series.id" fill />
+        <div
+            class="absolute inset-0 w-full h-full flex flex-col items-center justify-end bg-none opacity-0 group-hover:opacity-100 group-hover:bg-black/50 transition duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                class="size-10 text-[var(--white)]">
+                <path fill-rule="evenodd"
+                    d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                    clip-rule="evenodd" />
+            </svg>
+
+            <div class="text-white flex flex-col items-center justify-center pb-5 mt-20">
+                <p class="font-bold text-center">{{ series.original_name }}</p>
+                <div class="flex items-center space-x-2 justify-center">
+                    <p class="capitalize">tv show</p>
+                    <span class="font-bold leading-none">.</span>
+                    <p>{{ series.first_air_date| date:'yyyy' }}</p>
+                    <span class="font-bold leading-none">.</span>
+                    <p class="uppercase">{{series.original_language}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+}
 }
 @placeholder {
-    <div class="w-[230px] h-[350px] rounded-xl bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
-    </div>
+<div [style.width.px]="width" [style.height.px]="height"
+    class="rounded-xl bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
+</div>
 }
 @loading(minimum 2s){
-    <div class="w-[230px] h-[350px] rounded-xl bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
-    </div>
+<div [style.width.px]="width" [style.height.px]="height"
+    class="rounded-xl bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
+</div>
 }

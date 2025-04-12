@@ -74,22 +74,22 @@
         </div>
       </section>
 </ng-template>
-<section class="h-screen p-12 px-12">
+<section class="h-screen py-12">
     <div class="flex flex-col space-y-5">
-        <div>
-            <h1 class="text-[var(--white)] font-bold text-xl">Popular Movies</h1>
+        <div class="flex flex-col space-y-5">
+            <h1 class="text-[var(--white)] font-bold text-xl px-20">Popular Movies</h1>
             <app-movie-carousel [movies]="trendingMovies"  />
         </div>
-        <div>
-            <h1 class="text-[var(--white)] font-bold text-xl">Popular Tv Shows</h1>
+        <div class="flex flex-col space-y-5">
+            <h1 class="text-[var(--white)] font-bold text-xl px-20">Popular Tv Shows</h1>
             <app-movie-carousel [series]="trendingSeries"  />
         </div>
-        <div>
-            <h1 class="text-[var(--white)] font-bold text-xl">Top Rated Movies</h1>
+        <div class="flex flex-col space-y-5">
+            <h1 class="text-[var(--white)] font-bold text-xl px-20">Top Rated Movies</h1>
             <app-movie-carousel [movies]="topRatedMovies"  />
         </div>
-        <div>
-            <h1 class="text-[var(--white)] font-bold text-xl">Top Rated Tv Shows</h1>
+        <div class="flex flex-col space-y-5">
+            <h1 class="text-[var(--white)] font-bold text-xl px-20">Top Rated Tv Shows</h1>
             <app-movie-carousel [series]="topRatedSeries"  />
         </div>
     </div>
