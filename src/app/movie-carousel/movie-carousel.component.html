@@ -1,14 +1,17 @@
 <div #container class="w-full min-h-max grid grid-cols-[var(--side-button-width)_1fr_var(--side-button-width)]">
-  <div #prev class="prev flex justify-center items-center w-[var(--side-button-width)] relative">
-    <button #prevbtn class="btn prev-btn bg-[var(--primary)] text-black border-none h-12 w-12 rounded-full cursor-pointer flex justify-center items-center transition-all duration-300 ease-in-out hover:bg-[hsl(47,100%,39%)]">
-      <!-- SVG for left arrow -->
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round"
-        class="lucide lucide-chevron-left-icon lucide-chevron-left m-0 p-0 w-max">
-        <path d="m15 18-6-6 6-6" />
-      </svg>
-    </button>
-  </div>
+
+    <div #prev class="prev flex justify-center items-center w-[var(--side-button-width)] relative">
+      <button #prevbtn class="prev-btn bg-[var(--primary)] text-[var(--white)] border-none h-12 w-12 rounded-full cursor-pointer flex justify-center items-center transition-all duration-300 ease-in-out hover:bg-[--primary]/70">
+        <!-- SVG for left arrow -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-chevron-left-icon lucide-chevron-left m-0 p-0  flex justify-center items-center ">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+      </button>
+    </div>
+
+ 
   <div #holder class="hide-scrollbar holder w-full overflow-x-auto  scroll-smooth snap-x snap-mandatory">
     <div #slider class="slider w-max flex gap-5 ">
       @if (movies.length) {
@@ -32,14 +35,15 @@
       }
     </div>
   </div>
-  <div #next class="next flex justify-center items-center w-[var(--side-button-width)] relative">
-    <button #nextbtn
-      class="next-btn btn bg-[var(--primary)] text-black border-none h-12 w-12 rounded-full cursor-pointer flex justify-center items-center transition-all duration-300 ease-in-out hover:bg-[hsl(47,100%,39%)]">
-      <!-- SVG for right arrow -->
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right  w-max">
-        <path d="m9 18 6-6-6-6" />
-      </svg>
-    </button>
-  </div>
+    <div #next class="next flex justify-center items-center w-[var(--side-button-width)] relative">
+      <button #nextbtn
+        class="next-btn bg-[var(--primary)] group text-[var(--white)] border-none h-12 w-12 rounded-full cursor-pointer flex justify-center items-center transition-all duration-300 ease-in-out hover:bg-[--primary]/70">
+        <!-- SVG for right arrow -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right flex justify-center items-center ">
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </button>
+    </div>
+
 </div>
