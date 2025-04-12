@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SingleMovie, SingleSeries } from '../../types/video';
 import { VideoService } from '../video.service';
 import { CommonModule, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-tv-show-details',
-  imports: [CommonModule, NgIf],
+  imports: [CommonModule, NgIf, RouterLink],
   templateUrl: './tv-show-details.component.html',
   styleUrl: './tv-show-details.component.css'
 })

@@ -51,7 +51,7 @@
               </p>
       
               <div class="flex space-x-4">
-                <button class="btn btn-primary flex items-center space-x-1">
+                <a class="btn btn-primary flex items-center space-x-1" [routerLink]="'/watch/' + topMovie?.id" [queryParams]="{'type':'movie'}">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -65,8 +65,8 @@
                     />
                   </svg>
                   <span>Watch Now </span>
-                </button>
-                <button class="btn btn-ghost-outline">Watch Trailer</button>
+                </a>
+                <a  [routerLink]="'/trailer/' + topMovie?.id" class="btn btn-ghost-outline">Watch Trailer</a>
               </div>
             </div>
           </div>

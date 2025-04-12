@@ -1,17 +1,46 @@
-<ng-container *ngIf="video; else loading">
-    <main class="w-full h-full flex flex-col bg-">
-      <div class="w-full h-screen flex flex-col items-center justify-center">
-        <img
-        [src]="video.backdrop_path"
-        alt="cover"
-        class="w-full h-full cover object-cover"
-        />
-        <h3>Movie Details:</h3>
-  </div>
-    </main>
-  </ng-container>
-  
-  <ng-template #loading>
-    <p>Loading video details...</p>
-  </ng-template>
-  
+<ng-container *ngIf="video; else loading" >
+  <main class="min-h-screen flex flex-col">
+    <div class="relative w-full h-[300px]" [ngStyle]="{
+      'background-image': 'url(' +  video.backdrop_path + '), linear-gradient(180deg, transparent, var(--secondary) 90%)',
+      'background-size': 'cover',
+      'background-position': 'center',
+      'background-repeat': 'no-repeat',
+      'background-blend-mode': 'multiply',
+    }">
+        <div  class="absolute transform bg-[linear-gradient(180deg,transparent,var(--secondary)_65%)] -translate-y-1/2 -bottom-64 flex items-center space-x-12  text-white  w-full  px-24 py-6">
+          <img [src]="video.poster_path" [alt]="video.original_title + video.original_language" class="h-60 rounded-xl shadow w-50 object-center object-cover"/>
+          <div class="flex flex-col space-y-8">
+            <h2 class="font-bold text-4xl">
+              {{video.original_title}}
+            </h2>
+            <p>
+              {{video.overview}}
+            </p>
+            <div class="flex space-x-4">
+              <a class="btn btn-primary flex items-center space-x-1" [routerLink]="'/watch/' + video.id" [queryParams]="{'type':'movie'}">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span>Watch Now </span>
+              </a>
+              <a  [routerLink]="'/trailer/' + video.id" class="btn btn-ghost-outline">Watch Trailer</a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+  </main>
+</ng-container>
+
+<ng-template #loading>
+  <p>Loading video details...</p>
+</ng-template>

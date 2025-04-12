@@ -1,32 +1,50 @@
 <ng-container *ngIf="video; else loading">
-    <main class="w-full h-full flex flex-col">
-    <div class="relative w-full h-1/2 flex flex-col items-center justify-center"
-    [ngStyle]="{
-        'background-image': 'url(' + (video.backdrop_path || 'path/to/default-image.jpg') + '), linear-gradient(180deg, rgba(0,0,0,0), var(--secondary))',
-        'background-size': 'cover',
-        'background-position': 'center',
-        'background-repeat': 'no-repeat',
-        'background-blend-mode': 'multiply'
-      }"
-    >
-        <div class="absolute top-1/2 left-0 w-full text-white flex flex-col px-24 py-12 min-h-full">
-            <div class="flex items-center ">
-                <img
-                [src]="video.poster_path"
-                alt="cover"
-                class="w-[300px] h-[400px] rounded-xl object-top object-cover"
+  <main class="min-h-screen flex flex-col">
+    <div class="relative w-full h-[300px]" [ngStyle]="{
+      'background-image': 'url(' +  video.backdrop_path + '), linear-gradient(180deg, transparent, var(--secondary) 90%)',
+      'background-size': 'cover',
+      'background-position': 'center',
+      'background-repeat': 'no-repeat',
+      'background-blend-mode': 'multiply',
+    }">
+      <div
+        class="absolute transform bg-[linear-gradient(180deg,transparent,var(--secondary)_65%)] -translate-y-1/2 -bottom-64 flex items-end space-x-12  text-white  w-full  px-12 lg:px-24 py-6">
+        <img [src]="video.poster_path" [alt]="video.original_name + video.original_language"
+          class="h-60 rounded-xl shadow w-50 hidden lg:block object-center object-cover" />
+        <div class="flex flex-col space-y-5">
+          <h2 class="font-bold text-4xl">
+            {{video.original_name}}
+          </h2>
+          <p>
+            {{video.overview}}
+            
+          </p>
+          <div class="flex space-x-4">
+            <a class="btn btn-primary flex items-center space-x-1" [routerLink]="'/watch/' + video.id" [queryParams]="{'type':'tv'}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-4"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                  clip-rule="evenodd"
                 />
-                <div class="p-12">
-                    <h3>{{video.name}}</h3>
-                    <p>{{video.overview}}</p>
-                </div>
-            </div>
+              </svg>
+              <span>Watch Now </span>
+            </a>
+            <a  [routerLink]="'/trailer/' + video.id" class="btn btn-ghost-outline">Watch Trailer</a>
+          </div>
         </div>
+        
+      </div>
     </div>
-    </main>
-  </ng-container>
-  
-  <ng-template #loading>
-    <p>Loading video details...</p>
-  </ng-template>
-  
+
+  </main>
+</ng-container>
+
+<ng-template #loading>
+  <p>Loading video details...</p>
+</ng-template>
