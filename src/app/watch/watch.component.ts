@@ -84,7 +84,6 @@ export class WatchComponent {
       const newSource = selectElement.value;
       if (newSource && this.sources[newSource]) {
         this.currentSource.set(newSource);
-        this.loading.set(true)
       }
     }
   }
