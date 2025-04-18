@@ -75,16 +75,16 @@ export class WatchComponent {
       }
       this.loading.set(false)
     }
-    this.loading.set(false)
-
+    
   }
-
+  
   updateSource(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     if (selectElement) {
       const newSource = selectElement.value;
       if (newSource && this.sources[newSource]) {
         this.currentSource.set(newSource);
+        this.loading.set(true)
       }
     }
   }
