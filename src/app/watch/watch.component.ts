@@ -34,6 +34,8 @@ export class WatchComponent {
   currentSource = signal<string>('vidsrc');
   movie = signal<SingleMovie | undefined>(undefined)
   series = signal< SingleSeries | undefined>(undefined)
+  loading = signal< boolean >(true)
+
 
   safeUrl = computed(() => {
     const id = this.videoId();
@@ -71,7 +73,9 @@ export class WatchComponent {
           this.series.set({ ...response, poster_path: `${base_url}${response.poster_path}`, backdrop_path: `${base_backdrop_url}${response.backdrop_path}` })
         })
       }
+      this.loading.set(false)
     }
+    this.loading.set(false)
 
   }
 
