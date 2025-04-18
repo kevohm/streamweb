@@ -11,7 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 export class WatchComponent {
   videoId?:string 
   videoType?:string
-  sources = ["https://vidsrc.cc/v3","https://player.videasy.net"]
+  sources = {
+    vidsrc:"https://vidsrc.xyz/embeded",
+    videasy:"https://player.videasy.net"
+  }
+  currentSource = "vidsrc"
   safeUrl?: SafeResourceUrl;
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer) {
@@ -23,7 +27,7 @@ export class WatchComponent {
     if(id && type && ["tv","movie"].includes(type)){
       this.videoId = id
       this.videoType = type
-      const url = `https://vidsrc.cc/v3/embed/${this.videoType}/${this.videoId}?autoPlay=false`;
+      const url = `https://vidsrc.xyz/embeded/${this.videoType}/${this.videoId}?autoPlay=false`;
       this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
   }
