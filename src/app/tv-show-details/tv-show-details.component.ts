@@ -25,7 +25,9 @@ export class TvShowDetailsComponent {
   } | undefined>(undefined)
   episodes = signal<Episode | undefined>(undefined)
 
-  constructor(private route: ActivatedRoute, private videoService: VideoService) {
+  constructor(private route: ActivatedRoute, private videoService: VideoService) {}
+
+  ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.videoId = params.get('id');
       this.getVideoDetails()
