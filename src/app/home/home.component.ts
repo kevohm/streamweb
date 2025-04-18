@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Movie, Series } from '../../types/video';
 import { MovieCarouselComponent } from '../movie-carousel/movie-carousel.component';
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   trendingSeries: Series[] = []
   topMovie?: Movie;
   topSeries?: Series;
+  loading = signal<boolean>(true)
   constructor(private videoService: VideoService) { }
 
   ngOnInit(): void {
@@ -99,7 +100,7 @@ export class HomeComponent implements OnInit {
         return  { ...movie, poster_path, backdrop_path }
       });
     });
-
+    this.loading.set(false)
   }
   preloadImage(url: string): void {
     const img = new Image();

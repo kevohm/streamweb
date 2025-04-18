@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { Movie, OmdbMovie, Series, SingleMovie, SingleSeries } from '../types/video';
+import { Episode, Movie, OmdbMovie, Series, SingleMovie, SingleSeries } from '../types/video';
 
 type ApiResponse<T> = {
   "page": number,
@@ -93,6 +93,9 @@ export class VideoService {
   }
   getRatings(movieId: number): Observable<OmdbMovie> {
     return this.http.get<OmdbMovie>(`${this.apiUrl}/movies/ratings/${movieId}`);
+  }
+  getSeasonEpisodes(tvId: number, season:number): Observable<Episode> {
+    return this.http.get<Episode>(`${this.apiUrl}/series/query/${tvId}/${season}`);
   }
 
 }

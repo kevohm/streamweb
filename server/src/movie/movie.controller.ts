@@ -21,6 +21,10 @@ export class MovieController {
     async getShow(@Param() params: {id:string})  {
       return this.movieService.fetchSeriesDetails(params.id);
     }
+    @Get("series/query/:id/:season")
+    async getShowEpisodes(@Param() params: {id:string, season:string})  {
+      return this.movieService.fetchSeasonEpisodes(params.id,params.season);
+    }
     @Get("movies")
     async getMovies(@Query() query: { page?: number, genre?:string, sort_by?: string}) {
       return this.movieService.fetchMovies(query);

@@ -219,5 +219,24 @@ export class MovieService {
       throw new HttpException('Failed to fetch series details', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+
+  async fetchSeasonEpisodes(tvId: string, seasonNumber: string) {
+    const endpoint = `/tv/${tvId}/season/${seasonNumber}`;
+    const params = {};
+  
+    try {
+      const data = await this.fetchFromTmdb(endpoint, params);
+      return {
+        ...data,
+        base_url: this.baseImageUrl,
+        base_backdrop_url: this.baseBackdropImageUrl,
+      };
+    } catch (error) {
+      Logger.error(`Failed to fetch season ${seasonNumber} episodes for TV ID ${tvId}: ${error.message}`, 'MovieService');
+      throw new HttpException('Failed to fetch season episodes', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
   
 }
