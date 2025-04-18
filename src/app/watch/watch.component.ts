@@ -31,7 +31,7 @@ export class WatchComponent {
   sourceNames = Object.keys(this.sources);
   videoId = signal<string | undefined>(undefined);
   videoType = signal<VideoType | undefined>(undefined);
-  currentSource = signal<string>('vidsrc');
+  currentSource = signal<string>('videasy');
   movie = signal<SingleMovie | undefined>(undefined)
   series = signal< SingleSeries | undefined>(undefined)
   loading = signal< boolean >(true)
