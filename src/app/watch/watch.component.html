@@ -21,8 +21,14 @@
     <div class="w-full h-full rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
     </div>
     } @else if (safeUrl()) {
+    @defer () {
     <div class="w-full h-full block">
         <iframe [src]="safeUrl()" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
     </div>
+    }@loading(minimum 2s) {
+    <div class="w-full h-full rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
+    </div>
+
+    }
     }
 </div>
