@@ -5,7 +5,7 @@
 }@else{
 
 <section class="bg-cover bg-center bg-no-repeat bg-blend-multiply flex flex-col w-full h-screen" [ngStyle]="{
-          'background-image': 'url(' + (topMovie?.backdrop_path || 'path/to/default-image.jpg') + '), linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,0)), linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.7))',
+          'background-image': 'url(' + (topMovie?.backdrop_path || 'path/to/default-image.jpg') + '), linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,0)), linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.7)), linear-gradient(180deg, rgba(0,0,0,0), var(--secondary) 90%)',
           'background-size': 'cover',
           'background-position': 'center',
           'background-repeat': 'no-repeat',
@@ -36,7 +36,9 @@
     <div class="max-w-lg text-white flex flex-col space-y-12">
       <div class="flex flex-col space-y-4">
         <p class="font-bold text-3xl">{{topMovie?.title}}</p>
-        <app-rating [movieId]="topMovie?.id" />
+        @if (topMovie?.id) {
+          <app-rating [movieId]="topMovie?.id" />
+        }
       </div>
       <div class="flex flex-col space-y-6">
         <p>

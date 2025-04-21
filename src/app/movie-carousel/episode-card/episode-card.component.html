@@ -5,7 +5,11 @@
     [queryParams]="{'type':'tv','e': episode.episode_number,'s':episode.season_number}" #movieCard>
     <div class=" snap-start group block scroll-snap-start bg-[#1f1f2e] rounded-xl overflow-hidden relative transition-all duration-300 ease-[cubic-bezier(1,0,0,1)]"
         [style.width.px]="width" [style.height.px]="height">
-        <img [src]="episode.still_path" [alt]="'episode' + episode.show_id + episode.season_number + episode.episode_number" fill  class="h-full w-full object-cover object-center"/>
+        <img [src]="episode.still_path" 
+             [alt]="'episode' + episode.show_id + episode.season_number + episode.episode_number" 
+             fill  
+             [class.grayscale-100]="!imageExist"
+             class="h-full w-full object-cover object-center"/>
         <div
             class="absolute inset-0 w-full h-full flex flex-col items-center justify-end bg-none opacity-0 group-hover:opacity-100 group-hover:bg-black/70 transition duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

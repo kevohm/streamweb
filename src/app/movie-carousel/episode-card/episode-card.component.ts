@@ -13,4 +13,5 @@ export class EpisodeCardComponent {
   @Input() episode?:SingleEpisode = undefined
   @Input() height:number = 350;
   @Input() width:number = 230;
+  @Input() imageExist:boolean = true
 }

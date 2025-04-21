@@ -61,10 +61,11 @@ export class TvShowDetailsComponent {
   }
   getEpisodes(tvId:number, season:number){
     this.videoService.getSeasonEpisodes(tvId, season).subscribe((response) => {
-      const resp = {...response, episodes: response.episodes.map((e: SingleEpisode) => ({ ...e, still_path: `${response.base_backdrop_url}${e.still_path}` })) }
+      const resp = {...response, episodes: response.episodes.map((e: SingleEpisode) => {
+          return { ...e, still_path: `${response.base_backdrop_url}${e.still_path}` }
+      }) }
       this.episodesData.set(resp)
       this.episodes.set(resp.episodes)
-      console.log(resp.episodes)
     })
   }
 

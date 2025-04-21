@@ -19,6 +19,7 @@ export class RatingComponent implements OnInit {
   ngOnInit(): void {
     if (this.movieId) {
       this.videoService.getRatings(this.movieId).subscribe((response) => {
+        console.log(response)
         this.movieWithRating = response
       });
     }
