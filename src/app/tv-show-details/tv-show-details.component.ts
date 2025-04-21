@@ -1,12 +1,13 @@
 import { CommonModule, NgIf } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Episode, SingleSeries } from '../../types/video';
+import { Episode, SingleEpisode, SingleSeries } from '../../types/video';
 import { VideoService } from '../video.service';
+import { MovieCarouselComponent } from '../movie-carousel/movie-carousel.component';
 
 @Component({
   selector: 'app-tv-show-details',
-  imports: [CommonModule, NgIf, RouterLink],
+  imports: [CommonModule, NgIf, RouterLink, MovieCarouselComponent],
   templateUrl: './tv-show-details.component.html',
   styleUrl: './tv-show-details.component.css'
 })
@@ -23,7 +24,8 @@ export class TvShowDetailsComponent {
     season_number: number;
     vote_average: number;
   } | undefined>(undefined)
-  episodes = signal<Episode | undefined>(undefined)
+  episodesData = signal<Episode | undefined>(undefined)
+  episodes = signal<SingleEpisode[] >([])
 
   constructor(private route: ActivatedRoute, private videoService: VideoService) {}
 
@@ -47,8 +49,9 @@ export class TvShowDetailsComponent {
   }
   changeSeason(event: Event) {
     const selectedSeason = event.target as HTMLSelectElement
-    if (selectedSeason) {
-      const newSeason = this.video?.seasons.find((s) => s.season_number === Number(selectedSeason))
+    const season = selectedSeason.value
+    if (season) {
+      const newSeason = this.video?.seasons.find((s) => s.season_number === Number(season))
       if (newSeason){
         this.currentSeason.set(newSeason)
         this.getEpisodes(Number(this.videoId),newSeason.season_number)
@@ -58,7 +61,10 @@ export class TvShowDetailsComponent {
   }
   getEpisodes(tvId:number, season:number){
     this.videoService.getSeasonEpisodes(tvId, season).subscribe((response) => {
-      this.episodes.set(response)
+      const resp = {...response, episodes: response.episodes.map((e: SingleEpisode) => ({ ...e, still_path: `${response.base_backdrop_url}${e.still_path}` })) }
+      this.episodesData.set(resp)
+      this.episodes.set(resp.episodes)
+      console.log(resp.episodes)
     })
   }
 

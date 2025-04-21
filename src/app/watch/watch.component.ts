@@ -13,18 +13,18 @@ type VideoType = 'tv' | 'movie';
   standalone: true,
 })
 export class WatchComponent {
-  sources: Record<string, { movie: string; tv: string }> = {
+  sources: Record<string, { movie:(id:string)=>string, tv: (id:string, episode:string, season:string)=>string }> = {
     vidsrc: {
-      movie: 'https://vidsrc.xyz/embeded/movie/',
-      tv: 'https://vidsrc.xyz/embeded/tv/',
+      movie: (id:string)=>`https://vidsrc.xyz/embeded/movie/${id}`,
+      tv: (id:string, episode:string="1", season:string="1")=>`https://vidsrc.xyz/embeded/tv/${id}/${season}-${episode}`,
     },
     videasy: {
-      movie: 'https://player.videasy.net/movie/',
-      tv: 'https://player.videasy.net/tv/',
+      movie: (id:string)=>`https://player.videasy.net/movie/${id}` ,
+      tv: (id:string, episode:string="1", season:string="1")=>`https://player.videasy.net/tv/${id}/${season}/${episode}`,
     },
     '111movie': {
-      movie: 'https://111movies.com/movie/',
-      tv: 'https://111movies.com/tv/',
+      movie: (id:string)=>`https://111movies.com/movie/${id}`,
+      tv: (id:string, episode:string="1", season:string="1")=>`https://111movies.com/tv/${id}/${season}/${episode}`,
     },
   };
 
@@ -35,6 +35,8 @@ export class WatchComponent {
   movie = signal<SingleMovie | undefined>(undefined)
   series = signal< SingleSeries | undefined>(undefined)
   loading = signal< boolean >(true)
+  episode:string = "1"
+  season:string = "1"
 
 
   safeUrl = computed(() => {
@@ -42,8 +44,8 @@ export class WatchComponent {
     const type = this.videoType();
     const source = this.currentSource();
     if (id && type && this.sources[source]) {
-      const baseUrl = this.sources[source][type];
-      return this.sanitizer.bypassSecurityTrustResourceUrl(`${baseUrl}${id}?autoPlay=false`);
+      const urlGenerator = this.sources[source][type];
+      return (type === "movie") ? this.sanitizer.bypassSecurityTrustResourceUrl(`${urlGenerator(id,this.episode, this.season)}`):this.sanitizer.bypassSecurityTrustResourceUrl(`${urlGenerator(id,this.episode, this.season)}`);
     }
     return undefined;
   });
@@ -53,6 +55,12 @@ export class WatchComponent {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     const vidType = this.route.snapshot.queryParamMap.get('type');
+    const episode = this.route.snapshot.queryParamMap.get('e');
+    const season = this.route.snapshot.queryParamMap.get('s');
+    if(season && episode){
+      this.season = season
+      this.episode = episode
+    }
     if (id && vidType && ['tv', 'movie'].includes(vidType)) {
       this.videoId.set(id);
       this.videoType.set(vidType as VideoType);

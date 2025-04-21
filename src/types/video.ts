@@ -235,7 +235,7 @@ export type Episode = {
 };
 
 
-type SingleEpisode = {
+export type SingleEpisode = {
   air_date: string;
   episode_number: number;
   episode_type: string;

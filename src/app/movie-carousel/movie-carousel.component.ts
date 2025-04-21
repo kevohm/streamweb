@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Movie, Series } from '../../types/video';
+import { Movie, Series, SingleEpisode } from '../../types/video';
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { SeriesCardComponent } from './series-card/series-card.component';
+import { EpisodeCardComponent } from './episode-card/episode-card.component';
 
 @Component({
   selector: 'app-movie-carousel',
-  imports: [CommonModule, MovieCardComponent, SeriesCardComponent],
+  imports: [CommonModule, MovieCardComponent, SeriesCardComponent, EpisodeCardComponent],
   templateUrl: './movie-carousel.component.html',
   styleUrl: './movie-carousel.component.css'
 })
@@ -22,11 +23,12 @@ export class MovieCarouselComponent implements OnInit, OnDestroy{
 
   @Input() movies: Movie[] = [];
   @Input() series: Series[] = [];
+  @Input() episodes: SingleEpisode[] = [];
   height:number = 350;
   width:number = 230;
   
-
-
+  
+  
   ngOnInit(): void {
     this.adjustPosterWidth();
     
@@ -52,6 +54,7 @@ export class MovieCarouselComponent implements OnInit, OnDestroy{
   ngOnDestroy() {
     if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
   }
+
   adjustPosterWidth() {
     let WINDOW_WIDTH = window.innerWidth;
     const holder = this.holder.nativeElement;

@@ -35,23 +35,19 @@
       </div>
 
     </div>
-    <div class="w-full bg-white px-24">
-      <select [value]="currentSeason()?.season_number" (change)="changeSeason($event)">
-        @for (season of video.seasons; track $index) {
-        <option class="text-black bg-white" [value]="season.season_number">
-          {{season.name}}
-        </option>
-        }
-      </select>
-      @if(episodes()){
-        <div class="grid grid-col-2">
-          @for (episode of episodes()?.episodes; track $index) {
-            <div class="rounded-xl flex flex-col items-start justify-end ">
-              <p>S{{episode.season_number}}E{{episode.episode_number}}</p>
-              <p>{{episode.name}}</p>
-            </div>
+    <div class="w-full  py-10 flex flex-col space-y-5">
+      <div class="px-20 flex items-center justify-between">
+        <p class="text-white text-lg">Episodes</p>
+        <select class="bg-white cursor-pointer  rounded-lg" [value]="currentSeason()?.season_number" (change)="changeSeason($event)">
+          @for (season of video.seasons; track $index) {
+          <option class="text-black bg-white" [value]="season.season_number">
+            {{season.name}}
+          </option>
           }
-        </div>
+        </select>
+      </div>
+      @if(episodes() !== undefined) {
+        <app-movie-carousel [episodes]="episodes()" />
       }
     </div>
   </main>
