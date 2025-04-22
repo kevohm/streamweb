@@ -237,6 +237,63 @@ export class MovieService {
       throw new HttpException('Failed to fetch season episodes', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+
+  async searchMovies(query: { query: string; page?: number }) {
+    const endpoint = '/search/movie';
+    const params = {
+      query: query.query,
+      page: query.page || 1,
+    };
+    const data = await this.fetchFromTmdb(endpoint, params);
+    const formattedData = await this.formatMovies(data);
+    return {
+      ...formattedData,
+      base_url: this.baseImageUrl,
+      base_backdrop_url: this.baseBackdropImageUrl,
+    };
+  }
+
+
+  async searchMulti(query: { query: string; page?: number }) {
+    const endpoint = '/search/multi';
+    const params = {
+      query: query.query,
+      page: query.page || 1,
+    };
+    const data = await this.fetchFromTmdb(endpoint, params);
+  
+    // Optionally, format the results based on media type
+    const formattedResults = await Promise.all(
+      data.results.map(async (item) => {
+        if (item.media_type === 'movie') {
+          const genres = await this.fetchMovieGenres();
+          const genreNames = item.genre_ids.map((id: number) => {
+            const genre = genres.find((g) => g.id === id);
+            return genre ? genre.name : 'Unknown';
+          });
+          return { ...item, genres: genreNames };
+        } else if (item.media_type === 'tv') {
+          const genres = await this.fetchTvShowGenres();
+          const genreNames = item.genre_ids.map((id: number) => {
+            const genre = genres.find((g) => g.id === id);
+            return genre ? genre.name : 'Unknown';
+          });
+          return { ...item, genres: genreNames };
+        }
+        return item;
+      })
+    );
+  
+    return {
+      ...data,
+      results: formattedResults,
+      base_url: this.baseImageUrl,
+      base_backdrop_url: this.baseBackdropImageUrl,
+    };
+  }
+  
+  
   
   
 }

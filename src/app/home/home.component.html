@@ -28,9 +28,9 @@
       </ul>
     </div>
     <div class="flex items-center justift-start">
-      <input type="search" placeholder="Search Here"
+      <input #search type="search" placeholder="Search Here" (keydown.enter)="searchVideo($event)"
         class="backdrop-blur-sm text-[var(--white)] outline-none border-2 border-[var(--white)]/50 bg-[var(--secondary)]/40 px-4 py-2 rounded-lg focus:border-[var(--white)]" />
-    </div>
+        </div>
   </nav>
   <div class="w-full h-screen p-12 flex flex-col justify-end">
     <div class="max-w-lg text-white flex flex-col space-y-12">

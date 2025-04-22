@@ -1,28 +1,30 @@
 <div *ngIf="!movieWithRating; else content">
-    <div class="flex items-center space-x-4">
-        <div class="flex items-center space-x-2">
-          <img src="/assets/img/imdb.png" alt="IMDb logo" />
-          <div class="w-[50px] h-[20px] rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
-        </div>
-        </div>
-        <div class="flex items-center space-x-2">
-          <img src="/assets/img/rotten-tomatoes.png" alt="Rotten Tomatoes logo" />
-          <div class="w-[50px] h-[20px] rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
-        </div>
-        </div>
-      </div>
-  </div>
-
-
-  <ng-template #content>
-    <div class="flex items-center space-x-4">
-      <div class="flex items-center space-x-2">
-        <img src="/assets/img/imdb.png" alt="IMDb logo" />
-        <p>{{ movieWithRating?.imdbRating }} ({{ movieWithRating?.imdbVotes }})</p>
-      </div>
-      <div class="flex items-center space-x-2">
-        <img src="/assets/img/rotten-tomatoes.png" alt="Rotten Tomatoes logo" />
-        <p>{{ getRottenTomatoesRating(movieWithRating?.Ratings) }}</p>
+  <div class="flex items-center space-x-4">
+    <div class="flex items-center space-x-2">
+      <img src="/assets/img/imdb.png" alt="IMDb logo" />
+      <div
+        class="w-[50px] h-[20px] rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
       </div>
     </div>
-  </ng-template>
+    <div class="flex items-center space-x-2">
+      <img src="/assets/img/rotten-tomatoes.png" alt="Rotten Tomatoes logo" />
+      <div
+        class="w-[50px] h-[20px] rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #content>
+  <div class="flex items-center space-x-4">
+    <div class="flex items-center space-x-2">
+      <img src="/assets/img/imdb.png" alt="IMDb logo" />
+        <p>{{ movieWithRating?.imdbRating }} ({{movieWithRating?.imdbVotes | formatNumber}})</p>
+    </div>
+    <div class="flex items-center space-x-2">
+      <img src="/assets/img/rotten-tomatoes.png" alt="Rotten Tomatoes logo" />
+      <p>{{ getRottenTomatoesRating(movieWithRating?.Ratings) }}</p>
+    </div>
+  </div>
+</ng-template>

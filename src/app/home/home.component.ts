@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Movie, Series } from '../../types/video';
 import { MovieCarouselComponent } from '../movie-carousel/movie-carousel.component';
 import { RatingComponent } from '../rating/rating.component';
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   topMovie?: Movie;
   topSeries?: Series;
   loading = signal<boolean>(true)
-  constructor(private videoService: VideoService) { }
+  constructor(private videoService: VideoService, private router:Router) { }
 
   ngOnInit(): void {
     this.videoService.getMovies().subscribe((response) => {
@@ -105,5 +105,14 @@ export class HomeComponent implements OnInit {
   preloadImage(url: string): void {
     const img = new Image();
     img.src = url;
+  }
+
+  searchVideo(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const query = target.value.trim();
+    console.log(query)
+    if (query) {
+      this.router.navigate(['/search'], { queryParams: { q: query } });
+    }
   }
 }

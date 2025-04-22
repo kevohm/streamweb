@@ -3,10 +3,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { OmdbMovie } from '../../types/video';
 import { VideoService } from '../video.service';
+import { FormatNumberPipe } from '../format-number.pipe';
 
 @Component({
   selector: 'app-rating',
-  imports: [NgIf, NgxSkeletonLoaderModule],
+  imports: [NgIf, NgxSkeletonLoaderModule, FormatNumberPipe],
   templateUrl: './rating.component.html',
   styleUrl: './rating.component.css'
 })
@@ -24,6 +25,8 @@ export class RatingComponent implements OnInit {
       });
     }
   }
+
+
 
   getRottenTomatoesRating(ratings?: { Source: string; Value: string }[]): string {
     if (ratings) {
