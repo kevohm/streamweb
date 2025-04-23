@@ -17,10 +17,10 @@
         Stream<span class="text-[var(--primary)]">Web</span>
       </p>
       <ul class="list-none flex items-center self-start gap-3">
-        @for (item of [{title:"movies",slug:"movies"}, {title:"tv shows",slug:"tv-shows"}]; track $index) {
+        @for (item of [{title:"movies",slug:"movies",href:"/movie"}, {title:"tv shows",slug:"tv-shows",href:'/tv-show'}]; track $index) {
         <li>
-          <a [queryParams]="{ type: item.slug}" routerLink="/video"
-            class="capitalize text-white px-4 py-2 rounded border-none hover:bg-[var(--white)]/5 focus:bg-[var(--white)]/25 focus:text-white">
+          <a [routerLink]="item.href"
+            class="capitalize text-white px-4 py-2 rounded border-none hover:bg-[var(--white)]/5 ">
             {{ item.title }}
           </a>
         </li>
