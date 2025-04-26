@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
 import { Movie, Series, SingleEpisode } from '../../types/video';
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { SeriesCardComponent } from './series-card/series-card.component';
@@ -26,6 +26,8 @@ export class MovieCarouselComponent implements OnInit, OnDestroy{
   @Input() episodes: SingleEpisode[] = [];
   height:number = 350;
   width:number = 230;
+  showNext = signal<boolean>(true)
+  showPrev = signal<boolean>(false)
   
   
   
@@ -85,15 +87,17 @@ export class MovieCarouselComponent implements OnInit, OnDestroy{
     const next = this.next.nativeElement;
 
     if (holder.scrollLeft > 0) {
-      prev.style.display = "flex";
+      prev.style.display = "flex"
     } else {
-      prev.style.display = "none";
+      prev.style.display = "none"
     }
-
+    
     if (holder.scrollLeft + holder.offsetWidth >= holder.scrollWidth) {
-      next.style.display = "none";
+      next.classList.remove("group-hover:flex")
+      next.classList.add("group-hover:hidden")
     } else {
-      next.style.display = "flex";
+      next.classList.remove("group-hover:hidden")
+      next.classList.add("group-hover:flex")
     }
   }
 

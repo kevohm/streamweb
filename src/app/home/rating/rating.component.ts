@@ -1,9 +1,9 @@
 import { NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
-import { OmdbMovie } from '../../types/video';
-import { VideoService } from '../video.service';
-import { FormatNumberPipe } from '../format-number.pipe';
+import { OmdbMovie } from '../../../types/video';
+import { FormatNumberPipe } from '../../format-number.pipe';
+import { VideoService } from '../../video.service';
 
 @Component({
   selector: 'app-rating',

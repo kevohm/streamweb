@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
 })
 export class MovieCardComponent {
   @Input() movie?:Movie = undefined
-  @Input() height:number = 350;
-  @Input() width:number = 230;
+  @Input() height:number | string = 350;
+  @Input() width:number | string = 230;
 
 }

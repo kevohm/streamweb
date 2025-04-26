@@ -280,3 +280,27 @@ type GuestStar = {
   popularity: number;
   profile_path: string | null;
 };
+
+
+export type MediaItem = {
+  id: number;
+  title?: string;             // for movies
+  name?: string;              // for TV shows
+  original_title?: string;    // for movies
+  original_name?: string;     // for TV shows
+  overview: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  media_type: 'movie' | 'tv';
+  adult: boolean;
+  original_language: string;
+  genre_ids: number[];
+  genres: string[];
+  popularity: number;
+  release_date?: string;      // for movies
+  first_air_date?: string;    // for TV shows
+  vote_average: number;
+  vote_count: number;
+  origin_country?: string[];  // only for TV shows
+  video?: boolean;            // only for movies
+};

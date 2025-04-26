@@ -6,11 +6,16 @@ import { WatchComponent } from './watch/watch.component';
 import { TrailerComponent } from './trailer/trailer.component';
 import { MovieComponent } from './movie/movie.component';
 import { TvShowComponent } from './tv-show/tv-show.component';
+import { SearchComponent } from './search/search.component';
 
 export const routes: Routes = [
     {
         path: "",
         component: HomeComponent
+    },
+    {
+        path: "search",
+        component: SearchComponent
     },
     {
         path: "movie",

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { Episode, Movie, OmdbMovie, Series, SingleMovie, SingleSeries } from '../types/video';
+import { Episode, MediaItem, Movie, OmdbMovie, Series, SingleMovie, SingleSeries } from '../types/video';
 
 type ApiResponse<T> = {
   "page": number,
@@ -96,6 +96,10 @@ export class VideoService {
   }
   getSeasonEpisodes(tvId: number, season:number): Observable<Episode> {
     return this.http.get<Episode>(`${this.apiUrl}/series/query/${tvId}/${season}`);
+  }
+  searchAll(params?:{query:string, page:string}): Observable<ApiResponse<MediaItem>> {
+    let httpParams = this.formatParams(params)
+    return this.http.get<ApiResponse<MediaItem>>(`${this.apiUrl}/search/multi`,{params:httpParams});
   }
 
 }

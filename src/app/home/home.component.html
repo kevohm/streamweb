@@ -27,9 +27,14 @@
         }
       </ul>
     </div>
-    <div class="flex items-center justift-start">
-      <input #search type="search" placeholder="Search Here" (keydown.enter)="searchVideo($event)"
-        class="backdrop-blur-sm text-[var(--white)] outline-none border-2 border-[var(--white)]/50 bg-[var(--secondary)]/40 px-4 py-2 rounded-lg focus:border-[var(--white)]" />
+    <div class="flex items-center justify-start h-10">
+        <input #search type="search" placeholder="Search Here" (keydown.enter)="searchVideo($event)"
+          class="backdrop-blur-sm text-[var(--white)] outline-none h-full border-2 border-[var(--white)]/50 bg-[var(--secondary)]/40 px-4 py-2 rounded-l-lg focus:border-[var(--white)]" />
+          <select class=" bg-primary text-white h-full px-1 rounded-r-lg" [value]="videoType()" (change)="changeVideoType($event)">
+            @for (video of videoOptions; track $index) {
+              <option value={{video[0]}}>{{video[1]}}</option>
+            }
+          </select>
         </div>
   </nav>
   <div class="w-full h-screen p-12 flex flex-col justify-end">
@@ -62,8 +67,7 @@
 
   </div>
 </section>
-<section class="h-screen py-12">
-  <div class="flex flex-col space-y-5">
+<section class="py-12 flex flex-col space-y-5">
     <div class="flex flex-col space-y-5">
       <h1 class="text-[var(--white)] font-bold text-xl px-20">Popular Movies</h1>
       <app-movie-carousel [movies]="trendingMovies" />
@@ -80,6 +84,5 @@
       <h1 class="text-[var(--white)] font-bold text-xl px-20">Top Rated Tv Shows</h1>
       <app-movie-carousel [series]="topRatedSeries" />
     </div>
-  </div>
 </section>
 }

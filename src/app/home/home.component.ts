@@ -3,8 +3,8 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Movie, Series } from '../../types/video';
 import { MovieCarouselComponent } from '../movie-carousel/movie-carousel.component';
-import { RatingComponent } from '../rating/rating.component';
 import { VideoService } from '../video.service';
+import { RatingComponent } from './rating/rating.component';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +22,14 @@ export class HomeComponent implements OnInit {
   topMovie?: Movie;
   topSeries?: Series;
   loading = signal<boolean>(true)
-  constructor(private videoService: VideoService, private router:Router) { }
+  videoType = signal<"movie" | "tv">("movie")
+  videoTypeData = {
+    movie: "movie",
+    tv: "tv show"
+  }
+  videoOptions = Object.entries(this.videoTypeData)
+
+  constructor(private videoService: VideoService, private router: Router) { }
 
   ngOnInit(): void {
     this.videoService.getMovies().subscribe((response) => {
@@ -71,7 +78,7 @@ export class HomeComponent implements OnInit {
         const backdrop_path = `${base_backdrop_url}${movie.backdrop_path}`
         this.preloadImage(poster_path)
         this.preloadImage(backdrop_path)
-        const finalSeries =  { ...movie, poster_path, backdrop_path }
+        const finalSeries = { ...movie, poster_path, backdrop_path }
         if (index === 0) {
           this.topSeries = finalSeries
         }
@@ -86,18 +93,18 @@ export class HomeComponent implements OnInit {
         const backdrop_path = `${base_backdrop_url}${movie.backdrop_path}`
         this.preloadImage(poster_path)
         this.preloadImage(backdrop_path)
-        return  { ...movie, poster_path, backdrop_path }
+        return { ...movie, poster_path, backdrop_path }
       });
     });
     this.videoService.getTopRatedSeries().subscribe((response) => {
       const base_url = response.base_url
       const base_backdrop_url = response.base_backdrop_url
-      this.topRatedSeries = response.results.map((movie) =>{
+      this.topRatedSeries = response.results.map((movie) => {
         const poster_path = `${base_url}${movie.poster_path}`
         const backdrop_path = `${base_backdrop_url}${movie.backdrop_path}`
         this.preloadImage(poster_path)
         this.preloadImage(backdrop_path)
-        return  { ...movie, poster_path, backdrop_path }
+        return { ...movie, poster_path, backdrop_path }
       });
     });
     this.loading.set(false)
@@ -110,9 +117,15 @@ export class HomeComponent implements OnInit {
   searchVideo(event: Event) {
     const target = event.target as HTMLInputElement;
     const query = target.value.trim();
-    console.log(query)
     if (query) {
-      this.router.navigate(['/search'], { queryParams: { q: query } });
+      this.router.navigate(['/search'], { queryParams: { q: query, type: this.videoType() } });
     }
+  }
+  changeVideoType(event: Event) {
+    const target = event.target as HTMLSelectElement
+    if (target.value) {
+      this.videoType.set(target.value as "movie" | "tv")
+    }
+
   }
 }
