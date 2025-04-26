@@ -1,11 +1,11 @@
-@if (loading()) {
+@if (movieService.loadingMovie() || seriesService.loadingSeries()) {
 <div class="text-white text-3xl font-bold flex items-center justify-center h-full w-full">
   <p>Loading...</p>
 </div>
 }@else{
 
 <section class="bg-cover bg-center bg-no-repeat bg-blend-multiply flex flex-col w-full h-screen" [ngStyle]="{
-          'background-image': 'url(' + (topMovie?.backdrop_path || 'path/to/default-image.jpg') + '), linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,0)), linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.7)), linear-gradient(180deg, rgba(0,0,0,0), var(--secondary) 90%)',
+          'background-image': 'url(' + (movieService.topMovie()?.backdrop_path || 'path/to/default-image.jpg') + '), linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,0)), linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.7)), linear-gradient(180deg, rgba(0,0,0,0), var(--secondary) 90%)',
           'background-size': 'cover',
           'background-position': 'center',
           'background-repeat': 'no-repeat',
@@ -40,18 +40,18 @@
   <div class="w-full h-screen p-12 flex flex-col justify-end">
     <div class="max-w-lg text-white flex flex-col space-y-12">
       <div class="flex flex-col space-y-4">
-        <p class="font-bold text-3xl">{{topMovie?.title}}</p>
-        @if (topMovie?.id) {
-          <app-rating [movieId]="topMovie?.id" />
+        <p class="font-bold text-3xl">{{movieService.topMovie()?.title}}</p>
+        @if (movieService.topMovie()?.id) {
+          <app-rating [movieId]="movieService.topMovie()?.id" />
         }
       </div>
       <div class="flex flex-col space-y-6">
         <p>
-          {{topMovie?.overview}}
+          {{movieService.topMovie()?.overview}}
         </p>
 
         <div class="flex space-x-4">
-          <a class="btn btn-primary flex items-center space-x-1" [routerLink]="'/watch/' + topMovie?.id"
+          <a class="btn btn-primary flex items-center space-x-1" [routerLink]="'/watch/' + movieService.topMovie()?.id"
             [queryParams]="{'type':'movie'}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
               <path fill-rule="evenodd"
@@ -60,7 +60,7 @@
             </svg>
             <span>Watch Now </span>
           </a>
-          <a [routerLink]="'/trailer/' + topMovie?.id" class="btn btn-ghost-outline">Watch Trailer</a>
+          <a [routerLink]="'/trailer/' + movieService.topMovie()?.id" class="btn btn-ghost-outline">Watch Trailer</a>
         </div>
       </div>
     </div>
@@ -70,19 +70,19 @@
 <section class="py-12 flex flex-col space-y-5">
     <div class="flex flex-col space-y-5">
       <h1 class="text-[var(--white)] font-bold text-xl px-20">Popular Movies</h1>
-      <app-movie-carousel [movies]="trendingMovies" />
+      <app-movie-carousel [movies]="movieService.trendingMovies()" />
     </div>
     <div class="flex flex-col space-y-5">
       <h1 class="text-[var(--white)] font-bold text-xl px-20">Popular Tv Shows</h1>
-      <app-movie-carousel [series]="trendingSeries" />
+      <app-movie-carousel [series]="seriesService.trendingSeries()" />
     </div>
     <div class="flex flex-col space-y-5">
       <h1 class="text-[var(--white)] font-bold text-xl px-20">Top Rated Movies</h1>
-      <app-movie-carousel [movies]="topRatedMovies" />
+      <app-movie-carousel [movies]="movieService.topRatedMovies()" />
     </div>
     <div class="flex flex-col space-y-5">
       <h1 class="text-[var(--white)] font-bold text-xl px-20">Top Rated Tv Shows</h1>
-      <app-movie-carousel [series]="topRatedSeries" />
+      <app-movie-carousel [series]="seriesService.topRatedSeries()" />
     </div>
 </section>
 }
