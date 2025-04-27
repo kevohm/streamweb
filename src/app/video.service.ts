@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { Episode, MediaItem, Movie, OmdbMovie, Series, SingleMovie, SingleSeries } from '../types/video';
+import { Episode, Genre, MediaItem, Movie, OmdbMovie, Series, SingleMovie, SingleSeries } from '../types/video';
 
 type ApiResponse<T> = {
   "page": number,
@@ -53,13 +53,15 @@ export class VideoService {
 
   getMovies(params?: {
     page?: number;
+    genre?: number;
   }): Observable<ApiResponse<Movie>> {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movies`, { params: httpParams });
   }
-
+  
   getSeries(params?: {
     page?: number;
+    genre?: number;
   }): Observable<ApiResponse<Series>> {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Series>>(`${this.apiUrl}/series`, { params: httpParams });
@@ -101,5 +103,13 @@ export class VideoService {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<MediaItem>>(`${this.apiUrl}/search/multi`,{params:httpParams});
   }
+
+  getSeriesGenres() {
+    return this.http.get<Genre[]>(`${this.apiUrl}/series-genres`);
+  }
+  getMoviesGenres() {
+    return this.http.get<Genre[]>(`${this.apiUrl}/movies-genres`);
+  }
+  
 
 }

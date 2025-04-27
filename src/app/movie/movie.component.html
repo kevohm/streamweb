@@ -1,1 +1,27 @@
-<p>movie works!</p>
+@if (movieService.loadingMovie()) {
+    <app-loading/>
+  }@else{
+
+      
+          <app-hero [id]="movieService.trendingMovies()[0].id" [overview]="movieService.trendingMovies()[0].overview"
+              [backdrop]="movieService.trendingMovies()[0].backdrop_path" [title]="movieService.trendingMovies()[0].title" />
+          <section class="py-12 flex flex-col space-y-5">
+              <div class="flex flex-col space-y-5">
+                  <h1 class="text-[var(--white)] font-bold text-xl px-20">Popular Movies</h1>
+                  <app-movie-carousel [movies]="movieService.trendingMovies()" />
+              </div>
+              <div class="flex flex-col space-y-5">
+                  <h1 class="text-[var(--white)] font-bold text-xl px-20">Top Rated Movies</h1>
+                  <app-movie-carousel [movies]="movieService.topRatedMovies()" />
+              </div>
+              @if (movieService.movieByGenre()) {
+                @for (genre of getGenreKeys(movieService.movieByGenre()); track $index) {
+                <div class="flex flex-col space-y-5">
+                    <h1 class="text-[var(--white)] font-bold text-xl px-20">{{ genre }}</h1>
+                    <app-movie-carousel [movies]="movieService.movieByGenre()[genre]" />
+                </div>
+            
+                }
+                }
+          </section>
+  }

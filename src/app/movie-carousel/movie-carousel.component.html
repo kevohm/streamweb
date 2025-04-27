@@ -28,7 +28,7 @@
       }
       }@else if (episodes.length) {
       @for (episode of episodes; track episode.id) {
-      <app-episode-card [height]="height" [width]="width" [episode]="episode"></app-episode-card>
+      <app-episode-card [height]="height" [width]="width" [episode]="episode" ></app-episode-card>
       }
       } @else if (!movies.length) {
       <div class="text-center text-gray-500">

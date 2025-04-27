@@ -1,0 +1,47 @@
+<section class="bg-cover bg-center bg-no-repeat bg-blend-multiply flex flex-col w-full h-screen">
+    <nav class="flex justify-between items-center px-12 py-5">
+      <div class="flex items-center gap-3">
+        <div class="h-6 block w-30 bg-gray-700 rounded animate-pulse">
+        </div>
+        <ul class="list-none flex items-center self-start gap-3">
+          <li *ngFor="let i of [1,2]">
+            <div class="h-6 w-20 bg-gray-700 rounded animate-pulse"></div>
+          </li>
+        </ul>
+      </div>
+      <div class="flex items-center justify-start h-10">
+        <div class="h-full w-48 bg-gray-700 rounded-l-lg animate-pulse"></div>
+        <div class="h-full w-16 bg-gray-700 rounded-r-lg animate-pulse"></div>
+      </div>
+    </nav>
+  
+    <div class="w-full h-screen p-12 flex flex-col justify-end">
+      <div class="max-w-lg text-white flex flex-col space-y-12 animate-pulse">
+        <div class="flex flex-col space-y-4">
+          <div class="h-8 bg-gray-700 rounded w-3/4"></div>
+          <div class="h-5 bg-gray-700 rounded w-1/2"></div>
+        </div>
+        <div class="flex flex-col space-y-6">
+          <div class="h-24 bg-gray-700 rounded"></div>
+          <div class="flex space-x-4">
+            <div class="h-10 w-32 bg-gray-700 rounded"></div>
+            <div class="h-10 w-32 bg-gray-700 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <!-- Carousels Section Skeleton -->
+  <section class="py-12 flex flex-col w-full space-y-5">
+    <div class="flex w-full flex-col space-y-5 px-12">
+      <div class="h-8 block w-40 bg-gray-700 rounded animate-pulse">
+      </div>
+      <div class="overflow-auto w-full scroll-smooth no-scrollbar">
+        <div class="flex w-max space-x-4">
+          <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" class="h-60 w-40 bg-gray-700 rounded animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </section>

@@ -3,7 +3,7 @@
 <a [routerLink]="[`/tv-show/${series.id}`]" #movieCard>
     <div class=" snap-start group block scroll-snap-start bg-[#1f1f2e] rounded-xl overflow-hidden relative transition-all duration-300 ease-[cubic-bezier(1,0,0,1)]"
         [style.width.px]="width" [style.height.px]="height">
-        <img [src]="series.poster_path" [alt]="'movie' + series.id" fill />
+        <img [src]="series.poster_path" [alt]="'movie' + series.id" class="h-full object-cover" fill />
         <div
             class="absolute inset-0 w-full h-full flex flex-col items-center justify-end bg-none opacity-0 group-hover:opacity-100 group-hover:bg-black/70 transition duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

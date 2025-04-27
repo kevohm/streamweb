@@ -7,9 +7,8 @@
         [style.width.px]="width" [style.height.px]="height">
         <img [src]="episode.still_path" 
              [alt]="'episode' + episode.show_id + episode.season_number + episode.episode_number" 
-             fill  
-             [class.grayscale-100]="!imageExist"
-             class="h-full w-full object-cover object-center"/>
+             fill 
+             class="h-full object-cover"/>
         <div
             class="absolute inset-0 w-full h-full flex flex-col items-center justify-end bg-none opacity-0 group-hover:opacity-100 group-hover:bg-black/70 transition duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

@@ -1,1 +1,29 @@
-<p>tv-show works!</p>
+@if (seriesService.loadingSeries()) {
+<app-loading />
+}@else{
+
+<app-hero [id]="seriesService.trendingSeries()[0].id" [overview]="seriesService.trendingSeries()[0].overview"
+    [backdrop]="seriesService.trendingSeries()[0].backdrop_path || '' "
+    [title]="seriesService.trendingSeries()[0].original_name" />
+<section class="py-12 flex flex-col space-y-5">
+    <div class="flex flex-col space-y-5">
+        <h1 class="text-[var(--white)] font-bold text-xl px-20">Popular Tv Shows</h1>
+        <app-movie-carousel [series]="seriesService.trendingSeries()" />
+    </div>
+    <div class="flex flex-col space-y-5">
+        <h1 class="text-[var(--white)] font-bold text-xl px-20">Top Rated Tv Shows</h1>
+        <app-movie-carousel [series]="seriesService.topRatedSeries()" />
+    </div>
+    @if (seriesService.seriesByGenre()) {
+    @for (genre of getGenreKeys(seriesService.seriesByGenre()); track $index) {
+    <div class="flex flex-col space-y-5">
+        <h1 class="text-[var(--white)] font-bold text-xl px-20">{{ genre }}</h1>
+        <app-movie-carousel [series]="seriesService.seriesByGenre()[genre]" />
+    </div>
+
+    }
+    }
+
+</section>
+
+}

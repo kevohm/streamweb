@@ -1,18 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { HeroComponent } from '../components/hero/hero.component';
 import { MovieCarouselComponent } from '../movie-carousel/movie-carousel.component';
-import { RatingComponent } from './rating/rating.component';
 import { MovieService } from '../services/movie.service';
 import { SeriesService } from '../services/series.service';
+import { RatingComponent } from './rating/rating.component';
+import { LoadingComponent } from "../components/home/loading/loading.component";
 
 @Component({
   selector: 'app-home',
-  imports: [MovieCarouselComponent, RouterLink, CommonModule, RatingComponent],
+  imports: [MovieCarouselComponent, LoadingComponent, CommonModule, HeroComponent, LoadingComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   videoType = signal<"movie" | "tv">("movie")
   videoTypeData = {
     movie: "movie",
@@ -20,11 +22,8 @@ export class HomeComponent implements OnInit {
   }
   videoOptions = Object.entries(this.videoTypeData)
 
-  constructor(private router: Router, public movieService:MovieService, public seriesService:SeriesService) { }
+  constructor(private router: Router, public movieService: MovieService, public seriesService: SeriesService) { }
 
-  ngOnInit(): void {
-
-  }
 
   searchVideo(event: Event) {
     const target = event.target as HTMLInputElement;
