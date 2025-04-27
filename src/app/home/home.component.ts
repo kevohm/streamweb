@@ -7,10 +7,11 @@ import { MovieService } from '../services/movie.service';
 import { SeriesService } from '../services/series.service';
 import { RatingComponent } from './rating/rating.component';
 import { LoadingComponent } from "../components/home/loading/loading.component";
+import { FooterComponent } from '../components/footer/footer.component';
 
 @Component({
   selector: 'app-home',
-  imports: [MovieCarouselComponent, LoadingComponent, CommonModule, HeroComponent, LoadingComponent],
+  imports: [MovieCarouselComponent, LoadingComponent, CommonModule, HeroComponent, LoadingComponent,FooterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

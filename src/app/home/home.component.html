@@ -1,5 +1,5 @@
 @if (movieService.loadingMovie() || seriesService.loadingSeries()) {
-  <app-loading/>
+<app-loading />
 }@else{
 
 <app-hero [id]="movieService.trendingMovies()[0].id" [overview]="movieService.trendingMovies()[0].overview"
@@ -22,4 +22,5 @@
     <app-movie-carousel [series]="seriesService.topRatedSeries()" />
   </div>
 </section>
+<app-footer/>
 }
