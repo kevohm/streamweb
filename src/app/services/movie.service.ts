@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { Genre, Movie } from '../../types/video';
-import { VideoService } from '../video.service';
+import { VideoService } from './video.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +13,14 @@ export class MovieService {
   topMovie = signal<Movie | undefined>(undefined);
   moviesGenres = signal<Genre[]>([])
   loadingMovie = signal<boolean>(true);
+  loadingMovieByGenre = signal<boolean>(true);
   movieByGenre = signal<Record<string, Movie[]>>({});
 
-  constructor(private videoService: VideoService) {}
+  constructor(private videoService: VideoService) { }
 
   init() {
     this.loadingMovie.set(true);
+    this.loadingMovieByGenre.set(true)
 
     forkJoin({
       movies: this.videoService.getMovies(),
@@ -51,36 +53,37 @@ export class MovieService {
         poster_path: `${base_url}${m.poster_path}`,
         backdrop_path: `${base_backdrop_url}${m.backdrop_path}`
       })));
-      this.moviesGenres.set(genres)
-      this.fetchMoviesByGenres(genres.map((g)=>g.id))
       this.loadingMovie.set(false);
+      this.moviesGenres.set(genres)
+      this.fetchMoviesByGenres(genres.map((g) => g.id))
+      this.loadingMovieByGenre.set(false)
     });
   }
 
 
-  
-    fetchMoviesByGenres(genreIds: number[]) {
-      const genreRequests = genreIds.map(id => 
-        this.videoService.getMovies({genre:id})
-      );
-  
-      forkJoin(genreRequests).subscribe((responses) => {
-        const grouped: Record<string, Movie[]> = {};
-  
-        responses.forEach((response, index) => {
-          const genre = this.moviesGenres().find(g => g.id === genreIds[index]);
-          const genreName = genre?.name || `Genre ${genreIds[index]}`;
-          const base_url = response.base_url;
-          const base_backdrop_url = response.base_backdrop_url;
-  
-          grouped[genreName] = response.results.map(s => ({
-            ...s,
-            poster_path: `${base_url}${s.poster_path}`,
-            backdrop_path: `${base_backdrop_url}${s.backdrop_path}`
-          }));
-        });
-  
-        this.movieByGenre.set(grouped);
+
+  fetchMoviesByGenres(genreIds: number[]) {
+    const genreRequests = genreIds.map(id =>
+      this.videoService.getMovies({ genre: id })
+    );
+
+    forkJoin(genreRequests).subscribe((responses) => {
+      const grouped: Record<string, Movie[]> = {};
+
+      responses.forEach((response, index) => {
+        const genre = this.moviesGenres().find(g => g.id === genreIds[index]);
+        const genreName = genre?.name || `Genre ${genreIds[index]}`;
+        const base_url = response.base_url;
+        const base_backdrop_url = response.base_backdrop_url;
+
+        grouped[genreName] = response.results.map(s => ({
+          ...s,
+          poster_path: `${base_url}${s.poster_path}`,
+          backdrop_path: `${base_backdrop_url}${s.backdrop_path}`
+        }));
       });
-    }
+
+      this.movieByGenre.set(grouped);
+    });
+  }
 }

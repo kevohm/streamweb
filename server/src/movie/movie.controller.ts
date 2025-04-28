@@ -39,6 +39,13 @@ export class MovieController {
   async getMovies(@Query() query: { page?: number, genre?: string, sort_by?: string }) {
     return this.movieService.fetchMovies(query);
   }
+  @Get("trailer/:id/:type")
+  async getTrailer(@Param() params: { id: string, type: string }) {
+    if(!["tv","movie"].includes(params.type)){
+      params.type = "movie"
+    }
+    return this.movieService.fetchTrailers(params.id, params.type as "tv" | "movie");
+  }
   @Get("series")
   async getSeries(@Query() query: { page?: number, genre?: string, sort_by?: string }) {
     return this.movieService.fetchTvShows(query);

@@ -235,6 +235,12 @@ export type Episode = {
 };
 
 
+export type Trailer = {
+  "name": string,
+  "youtubeUrl": string,
+  "key": string,
+  "type": string
+}
 
 export type SingleEpisode = {
   air_date: string;

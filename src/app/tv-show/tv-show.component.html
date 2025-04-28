@@ -4,7 +4,7 @@
 
 <app-hero [id]="seriesService.trendingSeries()[0].id" [overview]="seriesService.trendingSeries()[0].overview"
     [backdrop]="seriesService.trendingSeries()[0].backdrop_path || '' "
-    [title]="seriesService.trendingSeries()[0].original_name" />
+    [title]="seriesService.trendingSeries()[0].original_name" type="tv" />
 <section class="py-12 flex flex-col space-y-5">
     <div class="flex flex-col space-y-5">
         <h1 class="text-[var(--white)] font-bold text-xl px-20">Popular Tv Shows</h1>

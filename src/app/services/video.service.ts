@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
-import { Episode, Genre, MediaItem, Movie, OmdbMovie, Series, SingleMovie, SingleSeries } from '../types/video';
+import { environment } from '../../environments/environment';
+import { Episode, Genre, MediaItem, Movie, OmdbMovie, Series, SingleMovie, SingleSeries, Trailer } from '../../types/video';
 
 type ApiResponse<T> = {
   "page": number,
@@ -58,7 +58,7 @@ export class VideoService {
     let httpParams = this.formatParams(params)
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movies`, { params: httpParams });
   }
-  
+
   getSeries(params?: {
     page?: number;
     genre?: number;
@@ -96,12 +96,12 @@ export class VideoService {
   getRatings(movieId: number): Observable<OmdbMovie> {
     return this.http.get<OmdbMovie>(`${this.apiUrl}/movies/ratings/${movieId}`);
   }
-  getSeasonEpisodes(tvId: number, season:number): Observable<Episode> {
+  getSeasonEpisodes(tvId: number, season: number): Observable<Episode> {
     return this.http.get<Episode>(`${this.apiUrl}/series/query/${tvId}/${season}`);
   }
-  searchAll(params?:{query:string, page:string}): Observable<ApiResponse<MediaItem>> {
+  searchAll(params?: { query: string, page: string }): Observable<ApiResponse<MediaItem>> {
     let httpParams = this.formatParams(params)
-    return this.http.get<ApiResponse<MediaItem>>(`${this.apiUrl}/search/multi`,{params:httpParams});
+    return this.http.get<ApiResponse<MediaItem>>(`${this.apiUrl}/search/multi`, { params: httpParams });
   }
 
   getSeriesGenres() {
@@ -110,6 +110,9 @@ export class VideoService {
   getMoviesGenres() {
     return this.http.get<Genre[]>(`${this.apiUrl}/movies-genres`);
   }
-  
+  getTrailer(id: number, type: "tv" | "movie"): Observable<Trailer[]> {
+    return this.http.get<Trailer[]>(`${this.apiUrl}/trailer/${id}/${type}`);
+  }
+
 
 }

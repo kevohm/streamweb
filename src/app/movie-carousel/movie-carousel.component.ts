@@ -63,7 +63,9 @@ export class MovieCarouselComponent implements OnInit, OnDestroy{
     const containerWidth = holder.offsetWidth;
     const gap = parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.25;
     let postersToShow;
-    if (WINDOW_WIDTH <= 600) {
+    if (WINDOW_WIDTH <= 400) {
+      postersToShow = 1;
+    }else if (WINDOW_WIDTH <= 600 && WINDOW_WIDTH > 400) {
       postersToShow = 2;
     } else if (WINDOW_WIDTH > 600 && WINDOW_WIDTH <= 1024) {
       postersToShow = 3;

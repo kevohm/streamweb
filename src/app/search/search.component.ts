@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Movie, Series } from '../../types/video';
 import { MovieCardComponent } from '../movie-carousel/movie-card/movie-card.component';
 import { SeriesCardComponent } from '../movie-carousel/series-card/series-card.component';
-import { VideoService } from '../video.service';
+import { VideoService } from '../services/video.service';
 
 @Component({
   selector: 'app-search',

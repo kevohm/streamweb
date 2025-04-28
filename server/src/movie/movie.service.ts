@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
-import { SortBy } from 'types/movies.types';
 
 @Injectable()
 export class MovieService {
@@ -21,8 +20,8 @@ export class MovieService {
     this.imageBaseUrl = configService.get<string>('TMDB_IMAGE_BASE_URL');
     this.imageSize = configService.get<string>('TMDB_IMAGE_SIZE')
     this.backdropImageSize = configService.get<string>('TMDB_BACKDROP_IMAGE_SIZE')
-    this.baseImageUrl =  `${this.imageBaseUrl}${this.imageSize}`;
-    this.baseBackdropImageUrl =  `${this.imageBaseUrl}${this.backdropImageSize}`;
+    this.baseImageUrl = `${this.imageBaseUrl}${this.imageSize}`;
+    this.baseBackdropImageUrl = `${this.imageBaseUrl}${this.backdropImageSize}`;
     this.OmdbApiKey = this.configService.get<string>('OMDB_API_KEY');
     this.OmdbBaseUrl = this.configService.get<string>('OMDB_API_URL');
   }
@@ -106,20 +105,20 @@ export class MovieService {
 
 
 
-  async fetchMovies(query: { page?: number, genre?: string, sort_by?:string}) {
+  async fetchMovies(query: { page?: number, genre?: string, sort_by?: string }) {
     const endpoint = '/discover/movie';
     const params = { page: query.page, with_genres: query.genre, sort_by: query.sort_by };
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatMovies(data)
-    return { ...formattedData, base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl }
+    return { ...formattedData, base_url: this.baseImageUrl, base_backdrop_url: this.baseBackdropImageUrl }
   }
 
-  async fetchTvShows(query: { page?: number, genre?: string,  sort_by?: string}) {
+  async fetchTvShows(query: { page?: number, genre?: string, sort_by?: string }) {
     const endpoint = '/discover/tv';
-    const params = { page: query.page, with_genres: query.genre,  sort_by: query.sort_by };
+    const params = { page: query.page, with_genres: query.genre, sort_by: query.sort_by };
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatSeries(data)
-    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl }
+    return { ...formattedData, base_url: this.baseImageUrl, base_backdrop_url: this.baseBackdropImageUrl }
   }
 
 
@@ -130,7 +129,7 @@ export class MovieService {
     const params = query;
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatMovies(data)
-    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl };
+    return { ...formattedData, base_url: this.baseImageUrl, base_backdrop_url: this.baseBackdropImageUrl };
   }
 
   // Fetch trending TV shows
@@ -139,7 +138,7 @@ export class MovieService {
     const params = query;
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatSeries(data)
-    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl };
+    return { ...formattedData, base_url: this.baseImageUrl, base_backdrop_url: this.baseBackdropImageUrl };
   }
 
   // Fetch top-rated movies
@@ -148,7 +147,7 @@ export class MovieService {
     const params = query;
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatMovies(data)
-    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl };
+    return { ...formattedData, base_url: this.baseImageUrl, base_backdrop_url: this.baseBackdropImageUrl };
   }
 
   // Fetch top-rated TV shows
@@ -157,17 +156,17 @@ export class MovieService {
     const params = query;
     const data = await this.fetchFromTmdb(endpoint, params);
     const formattedData = await this.formatSeries(data)
-    return { ...formattedData,  base_url:this.baseImageUrl, base_backdrop_url:this.baseBackdropImageUrl };
+    return { ...formattedData, base_url: this.baseImageUrl, base_backdrop_url: this.baseBackdropImageUrl };
   }
 
 
 
-  
+
   // Fetch movie details including IMDb and Rotten Tomatoes ratings
   async fetchMovieWithRatings(movieId: string) {
     try {
       // Fetch movie data from TMDb
-      const {data} = await axios.get(`${this.baseUrl}/movie/${movieId}/external_ids`, {
+      const { data } = await axios.get(`${this.baseUrl}/movie/${movieId}/external_ids`, {
         params: { api_key: this.apiKey },
       })
       const movieData = data
@@ -177,7 +176,7 @@ export class MovieService {
         Logger.error("Invalid url (base_url)", 'MovieService')
         throw new HttpException("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
       }
-      const response = await axios.get(this.OmdbBaseUrl, {params: { apikey: this.OmdbApiKey, i: imdbId}})
+      const response = await axios.get(this.OmdbBaseUrl, { params: { apikey: this.OmdbApiKey, i: imdbId } })
       const imdbRating = response.data
       return imdbRating
     } catch (error) {
@@ -188,25 +187,25 @@ export class MovieService {
   async fetchMovieDetails(movieId: string) {
     const endpoint = `/movie/${movieId}`;
     const params = {};
-  
+
     try {
       const data = await this.fetchFromTmdb(endpoint, params);
       return {
         ...data,
-        base_url:this.baseImageUrl,
-        base_backdrop_url:this.baseBackdropImageUrl
+        base_url: this.baseImageUrl,
+        base_backdrop_url: this.baseBackdropImageUrl
       };
     } catch (error) {
       Logger.error(`Failed to fetch movie details for ID ${movieId}: ${error.message}`, 'MovieService');
       throw new HttpException('Failed to fetch movie details', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  
-  
+
+
   async fetchSeriesDetails(seriesId: string) {
     const endpoint = `/tv/${seriesId}`;
     const params = {};
-  
+
     try {
       const data = await this.fetchFromTmdb(endpoint, params);
       return {
@@ -224,7 +223,7 @@ export class MovieService {
   async fetchSeasonEpisodes(tvId: string, seasonNumber: string) {
     const endpoint = `/tv/${tvId}/season/${seasonNumber}`;
     const params = {};
-  
+
     try {
       const data = await this.fetchFromTmdb(endpoint, params);
       return {
@@ -262,7 +261,7 @@ export class MovieService {
       page: query.page || 1,
     };
     const data = await this.fetchFromTmdb(endpoint, params);
-  
+
     // Optionally, format the results based on media type
     const formattedResults = await Promise.all(
       data.results.map(async (item) => {
@@ -284,7 +283,7 @@ export class MovieService {
         return item;
       })
     );
-  
+
     return {
       ...data,
       results: formattedResults,
@@ -292,8 +291,22 @@ export class MovieService {
       base_backdrop_url: this.baseBackdropImageUrl,
     };
   }
-  
-  
-  
-  
+
+  async fetchTrailers(id: string, type: 'movie' | 'tv') {
+    const endpoint = `/${type}/${id}/videos`;
+    const params = {};
+    const data = await this.fetchFromTmdb(endpoint, params);
+    const trailers = data.results.filter(
+      (video) => video.type === 'Trailer' && video.site === 'YouTube'
+    );
+
+    return trailers.map((trailer) => ({
+      name: trailer.name,
+      youtubeUrl: `https://www.youtube.com/watch?v=${trailer.key}`,
+      key: trailer.key,
+      type: trailer.type,
+    }));
+  }
+
+
 }

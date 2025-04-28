@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { HeroComponent } from '../components/hero/hero.component';
 import { MovieCarouselComponent } from '../movie-carousel/movie-carousel.component';
@@ -22,8 +22,11 @@ export class HomeComponent {
     tv: "tv show"
   }
   videoOptions = Object.entries(this.videoTypeData)
+  
 
   constructor(private router: Router, public movieService: MovieService, public seriesService: SeriesService) { }
+
+
 
 
   searchVideo(event: Event) {

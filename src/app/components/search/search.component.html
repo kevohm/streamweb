@@ -1,4 +1,4 @@
-<div class="flex items-center justify-start h-10">
+<div #searchContainer class="w-full md:w-auto flex items-center justify-start h-10">
     <input #search type="search" placeholder="Search Here" (keydown.enter)="searchVideo($event)"
         class="backdrop-blur-sm text-[var(--white)] outline-none h-full border-2 border-[var(--white)]/50 bg-[var(--secondary)]/40 px-4 py-2 rounded-l-lg focus:border-[var(--white)]" />
     <select class=" bg-primary text-white h-full px-1 rounded-r-lg" [value]="videoType()"

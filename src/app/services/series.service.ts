@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { Genre, Series } from '../../types/video';
-import { VideoService } from '../video.service';
+import { VideoService } from './video.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class SeriesService {
 
   seriesByGenre = signal<Record<string, Series[]>>({});
 
-  constructor(private videoService: VideoService) {}
+  constructor(private videoService: VideoService) { }
 
   init() {
     this.loadingSeries.set(true);
@@ -59,8 +59,8 @@ export class SeriesService {
   }
 
   fetchSeriesByGenres(genreIds: number[]) {
-    const genreRequests = genreIds.map(id => 
-      this.videoService.getSeries({genre:id})
+    const genreRequests = genreIds.map(id =>
+      this.videoService.getSeries({ genre: id })
     );
 
     forkJoin(genreRequests).subscribe((responses) => {

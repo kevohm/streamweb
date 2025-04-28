@@ -1,1 +1,43 @@
-<p>trailer works!</p>
+@if (loading()) {
+<div>
+    Loading
+</div>
+}@else if (trailers().length > 0) {
+    <div class="h-screen flex flex-col">
+        <h2>{{ trailers()[0].name }}</h2>
+        <iframe width="100%" height="100%" class="h-full w-full" [src]="getSafeYoutubeUrl(trailers()[0].key)"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen allowfullscreen>
+        </iframe>
+    
+    </div>
+
+
+
+}@else {
+    <div class="h-screen flex flex-col space-y-12 items-center justify-center w-full text-white">
+        <div class="flex flex-col space-y-4 items-center">
+            <p class="font-bold text-6xl">404</p>
+            <p class="text-2xl font-semibold">No trailer available</p>
+        </div>
+        <div class="flex items-center space-x-5">
+    
+            @if (videoType() === "tv") {
+            <a href="/tv-show" class=" btn btn-primary no-underline">
+                Browse all shows
+    
+    
+            </a>
+            }@else {
+            <a href="/movie" class="btn btn-primary no-underline">
+                Browse all movies
+            </a>
+    
+            }
+            <a [routerLink]="'/watch/' + videoId()" [queryParams]="{'type': videoType()}" class=" btn btn-ghost-outline no-underline" >
+                Watch Now
+            </a>
+        </div>
+    </div>
+}

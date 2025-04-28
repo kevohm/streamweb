@@ -2,8 +2,8 @@ import { CommonModule, NgIf } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Episode, SingleEpisode, SingleSeries } from '../../types/video';
-import { VideoService } from '../video.service';
 import { MovieCarouselComponent } from '../movie-carousel/movie-carousel.component';
+import { VideoService } from '../services/video.service';
 
 @Component({
   selector: 'app-tv-show-details',
@@ -25,9 +25,9 @@ export class TvShowDetailsComponent {
     vote_average: number;
   } | undefined>(undefined)
   episodesData = signal<Episode | undefined>(undefined)
-  episodes = signal<SingleEpisode[] >([])
+  episodes = signal<SingleEpisode[]>([])
 
-  constructor(private route: ActivatedRoute, private videoService: VideoService) {}
+  constructor(private route: ActivatedRoute, private videoService: VideoService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -44,7 +44,7 @@ export class TvShowDetailsComponent {
         this.video = { ...response, poster_path: `${base_url}${response.poster_path}`, backdrop_path: `${base_backdrop_url}${response.backdrop_path}` }
         this.currentSeason.set(this.video.seasons.find((s) => s.season_number === 1))
       })
-      this.getEpisodes(Number(this.videoId),1)
+      this.getEpisodes(Number(this.videoId), 1)
     }
   }
   changeSeason(event: Event) {
@@ -52,18 +52,20 @@ export class TvShowDetailsComponent {
     const season = selectedSeason.value
     if (season) {
       const newSeason = this.video?.seasons.find((s) => s.season_number === Number(season))
-      if (newSeason){
+      if (newSeason) {
         this.currentSeason.set(newSeason)
-        this.getEpisodes(Number(this.videoId),newSeason.season_number)
+        this.getEpisodes(Number(this.videoId), newSeason.season_number)
       }
 
     }
   }
-  getEpisodes(tvId:number, season:number){
+  getEpisodes(tvId: number, season: number) {
     this.videoService.getSeasonEpisodes(tvId, season).subscribe((response) => {
-      const resp = {...response, episodes: response.episodes.map((e: SingleEpisode) => {
+      const resp = {
+        ...response, episodes: response.episodes.map((e: SingleEpisode) => {
           return { ...e, still_path: `${response.base_backdrop_url}${e.still_path}` }
-      }) }
+        })
+      }
       this.episodesData.set(resp)
       this.episodes.set(resp.episodes)
     })

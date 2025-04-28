@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, Input, signal, ViewChild,input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,12 +8,15 @@ import { Router } from '@angular/router';
   styleUrl: './search.component.css'
 })
 export class SearchComponent {
+  @ViewChild('searchContainer', { static: true }) searchContainer!: ElementRef<HTMLDivElement>;
+  @Input() onClick?:()=>void
   videoType = signal<"movie" | "tv">("movie")
   videoTypeData = {
     movie: "movie",
     tv: "tv show"
   }
   videoOptions = Object.entries(this.videoTypeData)
+  showSearch = signal<boolean>(false)
 
 
   constructor(private router: Router) { }
@@ -22,6 +25,9 @@ export class SearchComponent {
     const target = event.target as HTMLInputElement;
     const query = target.value.trim();
     if (query) {
+      if(this.onClick){
+        this.onClick()
+      }
       this.router.navigate(['/search'], { queryParams: { q: query, type: this.videoType() } });
     }
   }
@@ -31,5 +37,8 @@ export class SearchComponent {
       this.videoType.set(target.value as "movie" | "tv")
     }
 
+  }
+  toggleSearch() {
+    this.showSearch.update((val) => !val)
   }
 }

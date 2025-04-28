@@ -1,28 +1,77 @@
-<section class="bg-cover bg-center bg-no-repeat bg-blend-multiply flex flex-col w-full h-screen" [ngStyle]="{
+<section class="bg-cover bg-center bg-no-repeat bg-blend-multiply flex flex-col w-full h-screen 2xl:h-[800px]"
+    [ngStyle]="{
     'background-image': 'url(' + (backdrop || 'path/to/default-image.jpg') + '), linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,0)), linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.7)), linear-gradient(180deg, rgba(0,0,0,0), var(--secondary) 90%)',
     'background-size': 'cover',
     'background-position': 'center',
     'background-repeat': 'no-repeat',
     'background-blend-mode': 'multiply'
   }">
-    <nav class="flex justify-between items-center px-12 py-5">
-        <div class="flex items-center gap-3">
-            <p class="flex justify-between items-center px-5 text-[var(--white)] text-lg font-bold">
+    <nav class="flex justify-between items-center px-5 md:px-12 py-5">
+        <div class="w-full hidden md:flex justify-between items-center">
+            <div class="flex flex-row items-center gap-3">
+                <p class="flex items-center px-5 text-[var(--white)] text-lg font-bold">
+                    Stream<span class="text-[var(--primary)]">Web</span>
+                </p>
+                <ul class="list-none flex items-center self-start gap-3">
+                    @for (item of videoOptions; track $index) {
+                    <li>
+                        <a [routerLink]="item.href"
+                            class="capitalize text-white px-4 py-2 rounded border-none hover:bg-[var(--white)]/5 ">
+                            {{ item.title }}
+                        </a>
+                    </li>
+                    }
+                </ul>
+            </div>
+
+            <app-search />
+        </div>
+        <div class="w-full  flex md:hidden justify-between items-center">
+            <p class="flex items-center px-5 text-[var(--white)] text-lg font-bold">
                 Stream<span class="text-[var(--primary)]">Web</span>
             </p>
-            <ul class="list-none flex items-center self-start gap-3">
-                @for (item of [{title:"movies",slug:"movies",href:"/movie"}, {title:"tv
-                shows",slug:"tv-shows",href:'/tv-show'}]; track $index) {
-                <li>
-                    <a [routerLink]="item.href"
-                        class="capitalize text-white px-4 py-2 rounded border-none hover:bg-[var(--white)]/5 ">
-                        {{ item.title }}
-                    </a>
-                </li>
-                }
-            </ul>
+            <div>
+                <button class="btn btn-primary" (click)="toggleOpenMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-menu-icon lucide-menu">
+                        <line x1="4" x2="20" y1="12" y2="12" />
+                        <line x1="4" x2="20" y1="6" y2="6" />
+                        <line x1="4" x2="20" y1="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
         </div>
-        <app-search />
+        @if (openMenu()) {
+
+            <div class="fixed top-0 left-0 w-full h-screen bg-black/90 flex md:hidden flex-col items-center justify-center ">
+                <div class=" justify-self-start">
+                    <button class="btn btn-primary" (click)="toggleOpenMenu()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-x-icon lucide-x">
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex flex-col items-start space-y-5">
+                    <app-search [onClick]="toggleOpenMenu" />
+                    <p class="text-white">What do you want to watch today ?</p>
+                    <ul class="list-none flex items-center gap-5 w-full">
+                        @for (item of videoOptions; track $index) {
+                        <li>
+                            <button (click)="handleLinkClick($event, item.href)"
+                                class="capitalize btn btn-primary px-4 py-2 rounded border-none">
+                                {{ item.title }}
+                            </button>
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+
     </nav>
     <div class="w-full h-screen p-12 flex flex-col justify-end">
         <div class="max-w-lg text-white flex flex-col space-y-12">
@@ -31,13 +80,16 @@
                 <app-rating [movieId]="id" />
             </div>
             <div class="flex flex-col space-y-6">
-                <p>
+                <p class="hidden md:block">
                     {{overview}}
                 </p>
+                <p class="block md:hidden">
+                    {{spliceText(overview)}}
+                </p>
 
-                <div class="flex space-x-4">
+                <div class="flex flex-col space-y-5 space-x-0 md:flex-row smd:space-y-0 md:space-x-4">
                     <a class="btn btn-primary flex items-center space-x-1" [routerLink]="'/watch/' + id"
-                        [queryParams]="{'type':'movie'}">
+                        [queryParams]="{type}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
                             <path fill-rule="evenodd"
                                 d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
@@ -45,7 +97,8 @@
                         </svg>
                         <span>Watch Now </span>
                     </a>
-                    <a [routerLink]="'/trailer/' + id" class="btn btn-ghost-outline">Watch Trailer</a>
+                    <a [routerLink]="'/trailer/' + id" [queryParams]="{type}" class="btn btn-ghost-outline">Watch
+                        Trailer</a>
                 </div>
             </div>
         </div>

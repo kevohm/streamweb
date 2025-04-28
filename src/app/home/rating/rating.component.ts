@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { OmdbMovie } from '../../../types/video';
 import { FormatNumberPipe } from '../../format-number.pipe';
-import { VideoService } from '../../video.service';
+import { VideoService } from '../../services/video.service';
 
 @Component({
   selector: 'app-rating',

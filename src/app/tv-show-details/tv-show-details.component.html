@@ -28,7 +28,7 @@
               </svg>
               <span>Watch Now </span>
             </a>
-            <a [routerLink]="'/trailer/' + video.id" class="btn btn-ghost-outline">Watch Trailer</a>
+            <a [routerLink]="'/trailer/' + video.id" [queryParams]="{'type':'tv'}" class="btn btn-ghost-outline">Watch Trailer</a>
           </div>
         </div>
 
