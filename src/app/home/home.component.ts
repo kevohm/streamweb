@@ -24,8 +24,7 @@ export class HomeComponent {
   videoOptions = Object.entries(this.videoTypeData)
   
 
-  constructor(private router: Router, public movieService: MovieService, public seriesService: SeriesService) { }
-
+  constructor(private router: Router, public movieService: MovieService, public seriesService:SeriesService) { }
 
 
 

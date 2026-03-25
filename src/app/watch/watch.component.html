@@ -1,5 +1,11 @@
-<div class="w-full h-screen flex flex-col">
-    <div class="h-10 px-12 flex items-center justify-between">
+<div class="w-full relative h-screen flex flex-col">
+
+    @if (loading()) {
+    <div class="w-full h-full rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
+    </div>
+    } @else if (safeUrl()) {
+    @defer () {
+            <div class="inset-0 absolute h-14 px-12 backdrop-blur-lg flex items-center justify-between">
         <h1 class="text-white p-5 py-3">
             @if (videoType() === "movie") {
             {{movie()?.original_title}}
@@ -9,21 +15,33 @@
             Enjoy The Show
             }
         </h1>
-        <select class="bg-white rounded-xl" (change)="updateSource($event)">
-            @for (name of sourceNames; track $index) {
-            <option [value]="name" [selected]="currentSource() === name">
-                {{ name }}
-            </option>
-            }
-        </select>
+<div class="relative inline-block w-56">
+  <select
+    class="w-full appearance-none bg-white border border-gray-300 text-gray-700 text-sm rounded-lg px-4 py-2 pr-10 shadow-sm
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+           hover:border-gray-400 transition-all duration-200 cursor-pointer"
+    (change)="updateSource($event)"
+  >
+    @for (name of sourceNames; track $index) {
+      <option [value]="name" [selected]="currentSource() === name">
+        {{ name }}
+      </option>
+    }
+  </select>
+
+  <!-- Custom dropdown icon -->
+  <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+</div>
     </div>
-    @if (loading()) {
-    <div class="w-full h-full rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">
-    </div>
-    } @else if (safeUrl()) {
-    @defer () {
     <div class="w-full h-full block">
-        <iframe [src]="safeUrl()" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+        <iframe [src]="safeUrl()" width="100%" height="100%" frameborder="0" allowfullscreen
+         allow="encrypted-media"
+         
+        ></iframe>
     </div>
     }@loading(minimum 2s) {
     <div class="w-full h-full rounded bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg animate-pulse">

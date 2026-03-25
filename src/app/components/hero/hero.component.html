@@ -88,7 +88,7 @@
                 </p>
 
                 <div class="flex flex-col space-y-5 space-x-0 md:flex-row smd:space-y-0 md:space-x-4">
-                    <a class="btn btn-primary flex items-center space-x-1" [routerLink]="'/watch/' + id"
+                    <a class="btn btn-primary flex items-center space-x-1 h-max" [routerLink]="'/watch/' + id"
                         [queryParams]="{type}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
                             <path fill-rule="evenodd"
@@ -97,7 +97,7 @@
                         </svg>
                         <span>Watch Now </span>
                     </a>
-                    <a [routerLink]="'/trailer/' + id" [queryParams]="{type}" class="btn btn-ghost-outline">Watch
+                    <a [routerLink]="'/trailer/' + id" [queryParams]="{type}" class="btn btn-ghost-outline h-max">Watch
                         Trailer</a>
                 </div>
             </div>
