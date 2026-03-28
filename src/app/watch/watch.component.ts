@@ -21,7 +21,7 @@ export class WatchComponent {
     }
   > = {
     vidsrc: {
-      movie: (id: string) => `https://vidsrc.xyz/embeded/movie/${id}`,
+      movie: (id: string) => `https:/vsembed.ru/embeded/movie/${id}`,
       tv: (id: string, episode: string = '1', season: string = '1') =>
         `https://vidsrc.xyz/embeded/tv/${id}/${season}-${episode}`,
     },
