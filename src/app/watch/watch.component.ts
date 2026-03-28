@@ -6,6 +6,7 @@ import { VideoService } from '../services/video.service';
 
 type VideoType = 'tv' | 'movie';
 
+const defaultProvider = 'videasy - best quality';
 @Component({
   selector: 'app-watch',
   templateUrl: './watch.component.html',
@@ -20,27 +21,42 @@ export class WatchComponent {
       tv: (id: string, episode: string, season: string) => string;
     }
   > = {
-    vidsrc: {
-      movie: (id: string) => `https:/vsembed.ru/embeded/movie/${id}`,
-      tv: (id: string, episode: string = '1', season: string = '1') =>
-        `https://vidsrc.xyz/embeded/tv/${id}/${season}-${episode}`,
-    },
-    videasy: {
+    [defaultProvider]: {
       movie: (id: string) => `https://player.videasy.net/movie/${id}`,
       tv: (id: string, episode: string = '1', season: string = '1') =>
         `https://player.videasy.net/tv/${id}/${season}/${episode}?autoplayNextEpisode=true&overlay=true`,
     },
-    '111movie': {
+    '111movie - Fastest': {
       movie: (id: string) => `https://111movies.com/movie/${id}`,
       tv: (id: string, episode: string = '1', season: string = '1') =>
         `https://111movies.com/tv/${id}/${season}/${episode}`,
+    },
+    vidsrc: {
+      movie: (id: string) => `https://vidsrc.cc/v3/embed/movie/${id}`,
+      tv: (id: string, episode: string = '1', season: string = '1') =>
+        `https://vidsrc.cc/v3/embed/tv/${id}`,
+    },
+    '67movie': {
+      movie: (id: string) => `https://67movies.nl/embed/movie/${id}`,
+      tv: (id: string, episode: string = '1', season: string = '1') =>
+        `https://67movies.nl/embed/tv/${id}/${season}/${episode}`,
+    },
+    vidcore: {
+      movie: (id: string) => `https://vidcore.net/movie/${id}`,
+      tv: (id: string, episode: string = '1', season: string = '1') =>
+        `https://vidcore.net/tv/${id}/${season}/${episode}`,
+    },
+    vidfast: {
+      movie: (id: string) => `https://vidfast.pro/movie/${id}`,
+      tv: (id: string, episode: string = '1', season: string = '1') =>
+        `https://vidfast.pro/tv/${id}/${season}/${episode}`,
     },
   };
 
   sourceNames = Object.keys(this.sources);
   videoId = signal<string | undefined>(undefined);
   videoType = signal<VideoType | undefined>(undefined);
-  currentSource = signal<string>('videasy');
+  currentSource = signal<string>(defaultProvider);
   movie = signal<SingleMovie | undefined>(undefined);
   series = signal<SingleSeries | undefined>(undefined);
   loading = signal<boolean>(true);
