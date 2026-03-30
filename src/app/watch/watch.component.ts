@@ -6,7 +6,7 @@ import { VideoService } from '../services/video.service';
 
 type VideoType = 'tv' | 'movie';
 
-const defaultProvider = 'videasy - best quality';
+const defaultProvider = '111movie - Fastest';
 @Component({
   selector: 'app-watch',
   templateUrl: './watch.component.html',
